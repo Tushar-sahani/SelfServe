@@ -5,7 +5,7 @@ import RecentPost from "../components/RecentPost";
 const Sidebar = () => {
   
   return (
-    <div className="xl:w-2/3 p-4 md:mt-8 m-auto">
+    <div className=" p-4 md:mt-8 m-auto">
       {/* Ask a Question Button */}
       <button className="w-full bg-[#4C1A84] hover:bg-[#d60b8c] duration-200 text-white py-2 rounded mb-5 font-bold">
         Post
