@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  background: #f7f7f7c9;
+}
+*::-webkit-scrollbar {
+  width: 5px;
+}
+*::-webkit-scrollbar-track {
+  background: #16161655;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #11111192;
+  border-radius: 15px;
+}
+/* Create Post Page CSS */
+
+.ql-container.ql-snow {
+  border: none !important;
+}
+
+.ql-editor {
+  background-color: transparent;
+  font-size:large;
+  height: 50vh;
+}
+.ql-toolbar.ql-snow{
+  /* border: none; */
+  /* position: sticky;
+  top: 6rem; */
+  border-left: 2px;
+  border-right: 2px;
+  border-color: rgb(219, 233, 246);
+  background-color: #f9fcff;
+  width: 100%;
+}
