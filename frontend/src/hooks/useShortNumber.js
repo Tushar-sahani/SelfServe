@@ -4,6 +4,11 @@
  * @returns {string} - The formatted number with appropriate suffix.
  */
 export const useShortNumber = (number) => {
+  
+  if(number==null){
+    return 20;
+  }
+  
     if (number < 1000) return number.toString();
     if (number < 1_000_000) return `${(number / 1000).toFixed(1)}k`;
     if (number < 1_000_000_000) return `${(number / 1_000_000).toFixed(1)}m`;

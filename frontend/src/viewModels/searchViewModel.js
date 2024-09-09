@@ -1,11 +1,8 @@
-// // viewmodels/searchViewModel.js
+import { useState } from "react";
+import { searchService } from "../services/searchService";
 
-import { useState } from 'react';
-import { searchService } from '../services/searchService';
-
-// Custom hook for search functionality
 export const useSearchViewModel = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearchChange = (query) => {
@@ -23,6 +20,6 @@ export const useSearchViewModel = () => {
     searchQuery,
     searchResults,
     handleSearchChange,
-    handleSearchSubmit
+    handleSearchSubmit,
   };
 };

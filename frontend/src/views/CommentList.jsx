@@ -1,4 +1,3 @@
-// components/CommentList.js
 import React from "react";
 import { useCommentViewModel } from "../viewModels/commentViewModel";
 import AddComment from "./comment/AddComment";
@@ -6,8 +5,6 @@ import Comment from "./comment/Comment";
 
 const CommentList = () => {
   const { commentList, addComment, deleteComment, addReply } = useCommentViewModel();
-
-  console.log(commentList);
   
   return (
     <div>

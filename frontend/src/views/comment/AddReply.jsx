@@ -1,4 +1,3 @@
-// components/AddReply.js
 import React, { useState } from "react";
 
 const AddReply = ({ setShowReply, parentComment, addReply }) => {
@@ -33,7 +32,7 @@ const AddReply = ({ setShowReply, parentComment, addReply }) => {
         >
           Reply
         </button>
-        </div>
+      </div>
     </div>
   );
 };

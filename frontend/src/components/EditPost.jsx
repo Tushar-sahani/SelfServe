@@ -1,18 +1,17 @@
 import React from "react";
 import useCreatePostViewModel from "../viewModels/CreatePostViewModel";
 import ReactQuill from "react-quill";
-import { useNavigate,useParams } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const CreatePost = () => {
+const EditPost = () => {
   const {
     title,
     description,
     tags,
     content,
     coverImage,
-    loading,
     handleTitleChange,
     handleDescriptionChange,
     handleContentChange,
@@ -22,9 +21,6 @@ const CreatePost = () => {
     handleRemoveSkill,
   } = useCreatePostViewModel();
 
-  const {category} = useParams();
-  console.log(category);
-  
   const coverImagePreview = coverImage ? URL.createObjectURL(coverImage) : "";
 
   const modules = {
@@ -46,11 +42,10 @@ const CreatePost = () => {
       matchVisual: false,
     },
   };
-  const navigate = useNavigate();
 
   return (
     <>
-      <div className="max-w-4xl mx-auto mt-2 bg-[#f0f0f0] rounded-lg mb-1">
+      <div className="max-w-4xl mx-auto mt-2 bg-slate-200 rounded-lg mb-1">
         <div className="p-3">
           <div className="">
             {!coverImage ? (
@@ -105,7 +100,7 @@ const CreatePost = () => {
               type="text"
               value={title}
               onChange={handleTitleChange}
-              placeholder={`New ${category==="post"?"Post":"Blog"} title here...`}
+              placeholder="New post title here..."
               className="w-full placeholder:text-[#434242] bg-transparent pt-2 mb-4 text-4xl font-bold placeholder:text-4xl text-gray-700 border-gray-300 focus:outline-none focus:border-indigo-500"
             />
             <input
@@ -137,7 +132,7 @@ const CreatePost = () => {
                 type="text"
                 onKeyDown={handleAddSkill}
                 className="bg-transparent placeholder:font-semibold placeholder:text-[#000000ab] p-1 outline-none flex-grow mb-3"
-                placeholder="Add Tags here"
+                placeholder="Add Up to 4 Tags"
               />
             </div>
           </div>
@@ -155,25 +150,16 @@ const CreatePost = () => {
           />
         </div>
       </div>
-      <div className="max-w-4xl mx-auto flex gap-10 mb-5">
+      <div className="flex items-center justify-between mb-5">
         <button
           onClick={publishPost}
-          className="px-4 py-2 w-52 text-white bg-purple-600 rounded-lg"
+          className="px-4 py-2 w-52 mx-auto text-white bg-purple-600 rounded-lg"
         >
-          {
-            loading?"Posting...":"Publish"
-          }
-          
-        </button>
-        <button
-          onClick={() => navigate("/")}
-          className="px-4 py-2 text-white bg-[#ce3547e1] rounded-lg"
-        >
-          Cancel
+          Publish
         </button>
       </div>
     </>
   );
 };
 
-export default CreatePost;
+export default EditPost;

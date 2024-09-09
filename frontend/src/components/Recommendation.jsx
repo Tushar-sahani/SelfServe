@@ -29,15 +29,15 @@ const Recommendation = () => {
                 <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
               </a>
             </div>
-            <figcaption class="flex items-center  p-2 ">
+            <figcaption className="flex items-center  p-2 ">
               <img
-                class="rounded-full w-9 h-9"
+                className="rounded-full w-9 h-9"
                 src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png"
                 alt="profile picture"
               />
-              <div class="font-medium text-left ms-3">
+              <div className="font-medium text-left ms-3">
                 <div className="text-sm">Bonnie Green</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400 ">
+                <div className="text-xs text-gray-500 dark:text-gray-400 ">
                   Developer
                 </div>
               </div>

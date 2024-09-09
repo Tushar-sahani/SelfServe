@@ -1,4 +1,10 @@
-export const fetchSearchResults = async (query) => {
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+
+const getAllPost = (id) => {
+  // console.log("id is comming",id);
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -11,14 +17,24 @@ export const fetchSearchResults = async (query) => {
         const response = await axios.get(
           `http://${import.meta.env.VITE_IP_ADDRESS}:${
             import.meta.env.VITE_PORT
-          }/api/article/title/${query}`
+          }/api/article/user/${id}`,
+          // {
+          //   headers: {
+          //     Authorization: `Bearer ${token}`,
+          //   },
+          // }
         );
 
+        // console.log(response);
+        
         if (response.data.apiResponseCode === "200") {
-          if (response.data.apiResponseData.responseCode === 200) {
+          
+          if (response.data.apiResponseData.responseCode === 200) { //getting response code in integer not in string should be fixed @@@@@@
+        
             setPosts(response.data.apiResponseData.responseData);
           } else {
             setError(response.data.apiResponseData.responseMessage);
+            // console.log(error);
           }
         } else {
           setError(response.data.apiResponseMessage);
@@ -34,7 +50,7 @@ export const fetchSearchResults = async (query) => {
     };
 
     fetchAllPost();
-  }, [query]);
+  }, [id]);
 
   return {
     posts,
@@ -42,3 +58,5 @@ export const fetchSearchResults = async (query) => {
     error,
   };
 };
+
+export default getAllPost;

@@ -7,7 +7,7 @@ const RecentPost = ({post,index}) => {
       <p className=" hover:text-[#d60b8c] cursor-pointer text-base">
         {post.title}
       </p>
-      <p className="text-sm text-gray-500">{useFormate(post.postDate)}</p>
+      <p className="text-sm text-gray-500">{useFormate(post.createdAt)}</p>
     </div>
   );
 };

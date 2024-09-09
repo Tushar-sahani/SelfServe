@@ -1,4 +1,3 @@
-// models/commentModel.js
 export const CommentModel = {
     comments: {
       firstLevelIds: [],

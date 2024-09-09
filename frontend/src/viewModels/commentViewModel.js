@@ -1,7 +1,5 @@
-// viewmodels/commentViewModel.js
 import { useState } from "react";
 import { CommentModel } from "../model/CommentModel";
-import { getUniqueId } from "../utils/utils";
 import useFormate from "../hooks/useFormate"
 import useTimeFormat from "../hooks/useTimeFormat";
 export const useCommentViewModel = () => {
@@ -17,8 +15,7 @@ export const useCommentViewModel = () => {
 
   const addComment = (commentText) => {
     const newComment = {
-      id: getUniqueId(),
-      text: commentText,
+      description: commentText,
       date:date,
       time:time,
       children: [],

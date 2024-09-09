@@ -1,7 +1,6 @@
 // dateString Formate (YYYY-MM-DD)
 
 const useFormate = (dateString) => {
-  console.log(dateString);
   
   const date = new Date(dateString);
   const options = { year: "numeric", month: "long", day: "numeric" };

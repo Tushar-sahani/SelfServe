@@ -37,7 +37,7 @@ const BlogCard = ({ blog }) => {
 
                 <span>{useShortNumber(2670 )} views</span>
               </div>
-              <button className="bg-[#4C1A84] m-auto text-white px-4 py-2 md:mt-4 rounded-full hover:bg-red-600">
+              <button className="bg-[#4C1A84] m-auto text-white px-4 py-2 mt-4 rounded-full hover:bg-red-600">
                 Continue reading
               </button>
             </div>

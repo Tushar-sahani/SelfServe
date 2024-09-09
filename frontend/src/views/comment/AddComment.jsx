@@ -15,7 +15,7 @@ const AddComment = ({ addComment }) => {
   return (
     <div className="w-full flex space-y-4 border-b pb-4">
       <div className="m-auto pt-3">
-        <MdAccountCircle className="text-5xl text-[#0000004d]"/>
+        <MdAccountCircle className="text-5xl text-[#0000004d]" />
       </div>
       <textarea
         placeholder="Add a Comment..."

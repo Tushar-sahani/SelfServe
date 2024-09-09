@@ -1,24 +1,35 @@
-export const fetchSearchResults = async (query) => {
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import getAllPost from "./getAllPost";
+
+const getProfileModel = (id) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState([]);
 
   const { token } = useSelector((store) => store.auth);
 
   useEffect(() => {
-    const fetchAllPost = async () => {
+    const fetchProfile = async () => {
       try {
         const response = await axios.get(
           `http://${import.meta.env.VITE_IP_ADDRESS}:${
             import.meta.env.VITE_PORT
-          }/api/article/title/${query}`
+          }/api/users/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         if (response.data.apiResponseCode === "200") {
-          if (response.data.apiResponseData.responseCode === 200) {
-            setPosts(response.data.apiResponseData.responseData);
+          if (response.data.apiResponseData.responseCode === "200") {
+            setUser(response.data.apiResponseData.responseData);
           } else {
             setError(response.data.apiResponseData.responseMessage);
+            // console.log(error);
           }
         } else {
           setError(response.data.apiResponseMessage);
@@ -33,12 +44,14 @@ export const fetchSearchResults = async (query) => {
       }
     };
 
-    fetchAllPost();
-  }, [query]);
+    fetchProfile();
+  }, []);
 
   return {
-    posts,
+    user,
     loading,
     error,
   };
 };
+
+export default getProfileModel;

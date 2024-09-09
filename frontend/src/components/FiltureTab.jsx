@@ -1,80 +1,81 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFilter } from "../redux/slices/filterTabSlice";
 
 const FiltureTab = () => {
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState("recentpost");
+  const [activeTab, setActiveTab] = useState("RecentPost");
 
+  useEffect(() => {
+    dispatch(updateFilter(activeTab));
+  }, [activeTab]);
   const handleClick = (tab) => {
     setActiveTab(tab);
-    dispatch(updateFilter(tab));
   };
 
   return (
-    <div className="container mx-auto py-8 relative">
-      <div className="flex items-center flex-wrap justify-center after:content-[''] lg:after:w-[78%] after:w-[80%]  after:bottom-8 after:h-0.5 after:bg-[#d60b8c] after:absolute">
+    <div className=" py-8 relative">
+      <div className="flex flex-wrap items-center justify-center after:content-[''] lg:after:w-[70%] after:w-[80%]  after:bottom-8 after:h-0.5 after:bg-[#d60b8c] after:absolute">
         <button
-          className={`px-6 py-3 font-medium  rounded-sm transition duration-300 ease-in-out  ${
-            activeTab === "recentpost"
+          className={` px-6 py-3 font-medium  rounded-sm transition duration-300 ease-in-out  ${
+            activeTab === "RecentPost"
               ? "bg-[#d60b8c] text-white"
-              : "text-black hover:bg-[#4C1A84]"
+              : "text-black"
           }`}
-          onClick={() => handleClick("recentpost")}
+          onClick={() => handleClick("RecentPost")}
         >
           Recent Post
         </button>
         <button
           className={`px-6 py-3 font-medium  rounded-sm transition duration-300 ease-in-out ${
-            activeTab === "toppost"
-              ? "bg-[#d60b8c] text-white "
-              : "text-black hover:bg-[#4C1A84]"
+            activeTab === "TopPost" ? "bg-[#d60b8c] text-white " : "text-black "
           }`}
-          onClick={() => handleClick("toppost")}
+          onClick={() => handleClick("TopPost")}
         >
           Top Post
         </button>
         <button
           className={`px-6 py-3 font-medium  rounded-sm transition duration-300 ease-in-out ${
-            activeTab === "mostliked"
+            activeTab === "MostLiked"
               ? "bg-[#d60b8c] text-white"
-              : "text-black hover:bg-[#4C1A84]"
+              : "text-black "
           }`}
-          onClick={() => handleClick("mostliked")}
+          onClick={() => handleClick("MostLiked")}
         >
           Most Liked
         </button>
         <button
           className={`px-6 py-3 font-medium  rounded-sm transition duration-300 ease-in-out ${
-            activeTab === "mostcommented"
+            activeTab === "MostComment"
               ? "bg-[#d60b8c] text-white"
-              : "text-black hover:bg-[#4C1A84]"
+              : "text-black"
           }`}
-          onClick={() => handleClick("mostcommented")}
+          onClick={() => handleClick("MostComment")}
         >
           Most Commented
         </button>
         <button
           className={`px-6 py-3 font-medium rounded-sm transition duration-300 ease-in-out ${
-            activeTab === "answered"
+            activeTab === "Answered"
               ? "bg-[#d60b8c] text-white "
-              : "text-black hover:bg-[#4C1A84]"
+              : "text-black "
           }`}
-          onClick={() => handleClick("answered")}
+          onClick={() => handleClick("Answered")}
         >
           Answered
         </button>
         <button
+          to={`/${"mostcommented"}`}
           className={`px-6 py-3 font-medium  rounded-sm transition duration-300 ease-in-out ${
-            activeTab === "notanswered"
+            activeTab === "NotAnswered"
               ? "bg-[#d60b8c] text-white"
-              : "text-black hover:bg-[#4C1A84]"
+              : "text-black"
           }`}
-          onClick={() => handleClick("notanswered")}
+          onClick={() => handleClick("NotAnswered")}
         >
           Not Answered
         </button>
-        
       </div>
     </div>
   );

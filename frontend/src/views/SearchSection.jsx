@@ -1,6 +1,6 @@
 import React from "react";
 import SearchBar from "../components/SearchBar";
-
+// import {searchQuery} from "../viewModels/searchViewModel" 
 const SearchSection = ({ title, description }) => {
   return (
     <div className="text-black flex flex-col justify-center items-center text-center bg-slate-100  w-full">
@@ -14,7 +14,7 @@ const SearchSection = ({ title, description }) => {
         )}
         
           {description == null
-            ? <p className="mb-8 max-w-4xl md:text-lg text-sm text-slate-700 mt-10">Welcome to Self Serve – Rapipay’s hub for knowledge and innovation!
+            ? <p className="mb-8 max-w-4xl md:text-lg text-sm text-slate-700 mt-10"> Rapipay’s hub for knowledge and innovation!
           Discover and share valuable insights through employee blogs, connect
           with peers, and contribute your expertise. Explore diverse content,
           engage in meaningful discussions, and enhance your professional

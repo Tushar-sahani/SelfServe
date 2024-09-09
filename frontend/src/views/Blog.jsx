@@ -1,25 +1,38 @@
 import React from "react";
 import { articles } from "../utils/blogData";
 import BlogCard from "../components/BlogCard";
+import BlogShimmer from "../components/BlogShimmer";
+import { useNavigate } from "react-router-dom";
+
 function Blog() {
+
+  const navigate = useNavigate();
   return (
-    <div className=" md:w-2/3 m-auto p-5">
-      <div className=" after:content-[''] md:after:mt-4 after:mt-2 after:block after:w-full after:h-0.5 after:bg-[#0000002e]">
-        <div className="flex gap-20 max-md:gap-14">
-          <h1 className="md:text-4xl text-xl font-extrabold text-[#000000bf]">
+    <div className="w-full md:w-2/3 m-auto md:p-5">
+      <div className="sticky top-24 z-[99] px-5 bg-[#f7f7f7f3] max-md:bg-[#f7f7f7f5] after:content-[''] md:after:mt-4 after:block after:w-full after:h-0.5 after:bg-[#0000002e]">
+        <div className={`flex max-md:flex-col md:gap-20 gap-4 pt-3`}>
+          <h1 className="md:text-4xl text-xl font-extrabold text-[#000000bf] md:w-1/3">
             SelfServe Blog
           </h1>
-          <div className="md:text-xl mt-auto flex gap-10">
-            <span className="font-light cursor-pointer hover:text-[#d60b8c]">
-              Latest
-            </span>
-            <span className="font-light cursor-pointer hover:text-[#d60b8c]">
-              Top
-            </span>
+          <div className="md:text-xl w-full mt-auto max-md:mb-3 flex justify-between">
+            <div className="items-center flex gap-10">
+              <span className="font-medium cursor-pointer hover:text-[#d60b8c]">
+                Latest
+              </span>
+              <span className="font-medium  cursor-pointer hover:text-[#d60b8c]">
+                Top
+              </span>
+            </div>
+            <button
+              className="px-8 bg-[#4C1A84] hover:bg-[#d60b8c] duration-200 text-white py-2 rounded  font-bold"
+              onClick={()=>navigate('/new/blog')}
+            >
+              Post
+            </button>
           </div>
         </div>
       </div>
-      <div>
+      <div className="p-3">
         <div className="max-w-7xl m-auto w-full grid grid-cols-1 lg:grid-cols-3 gap-4 mt-10">
           {/* Main Content */}
           <div className="lg:col-span-2 relative bg-white rounded-xl shadow-lg overflow-hidden">
@@ -88,7 +101,7 @@ function Blog() {
       </div>
 
       {/* Animated cards section */}
-      <div className="flex gap-5 justify-evenly flex-col lg:flex-row mt-16 box-border ">
+      <div className="p-3 flex gap-5 justify-evenly flex-col lg:flex-row mt-16 box-border ">
         <div className="relative flex-grow lg:w-[25rem] h-[22rem] bg-white rounded-sm shadow-lg overflow-hidden group">
           <div
             className="h-full bg-cover bg-center"
@@ -176,8 +189,10 @@ function Blog() {
       </div>
 
       {/* All blogs */}
-      <div className="">
-        {articles.map((article) => <BlogCard blog={article}/>)}
+      <div className="p-3">
+        {articles.map((article) => (
+          <BlogCard blog={article} />
+        ))}
       </div>
     </div>
   );
