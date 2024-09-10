@@ -24,7 +24,6 @@ const CreatePost = () => {
   } = useCreatePostViewModel();
 
   const { category } = useParams();
-  console.log(category);
 
   const coverImagePreview = coverImage ? URL.createObjectURL(coverImage) : "";
 

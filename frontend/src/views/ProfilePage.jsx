@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import Posts from "../components/Posts";
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { LuMailPlus } from "react-icons/lu";
 import { CiImageOn } from "react-icons/ci";
 import getProfileModel from "../model/getProfileModel";
@@ -22,16 +23,21 @@ const ProfilePage = () => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [deletedId, setDeletedId] = useState(null);
   const [error, setError] = useState(null);
-  const [data,setdata] = useState([]);
-
-  console.log(deleteConfirmation, deleteModel);
-
+  const [posts, setPosts] = useState([]);
   const { token, isAuthenticated } = useSelector((store) => store.auth);
 
+  const { user, error: profileError, loading } = getProfileModel(id);
+  const { posts: personalPost } = getAllPost(id);
+
+  useEffect(() => {
+    if (personalPost) {
+      setPosts(personalPost);
+    }
+  },[personalPost]);
+  console.log(posts);
+  
   useEffect(() => {
     if (deleteConfirmation && deletedId !== null) {
-      console.log("going inside");
-
       const deletePost = async () => {
         try {
           const response = await axios.delete(
@@ -47,12 +53,10 @@ const ProfilePage = () => {
 
           if (response.data.apiResponseCode === "200") {
             if (response.data.apiResponseData.responseCode === "200") {
+
+              setPosts(prevPosts => prevPosts.filter(post => post.id !== deletedId));
               setDeletedId(null);
-              console.log(response.data.apiResponseData);
-              
-              toast.success("Post Deleted!", {
-                autoClose: 3000,
-              });
+              toast.success("Post deleted successfully!",{autoClose:1500});
             } else {
               setError(response.data.apiResponseData.responseMessage);
             }
@@ -72,16 +76,10 @@ const ProfilePage = () => {
     }
   }, [deleteConfirmation]);
 
-  const { user, error: profileError, loading } = getProfileModel(id);
-  const { posts } = getAllPost(id);
+  
 
-  useEffect(()=>{
-    if(posts){
-      setdata(posts);
-    }
-  });
-  
-  
+
+
   return (
     <>
       {deleteModel && (
@@ -184,7 +182,10 @@ const ProfilePage = () => {
                         </button>
                         <button
                           className="text-red-500 md:text-3xl"
-                          onClick={() => {setDeletedId(data.id);setDeleteModel(true)}}
+                          onClick={() => {
+                            setDeletedId(data.id);
+                            setDeleteModel(true);
+                          }}
                         >
                           <MdDelete />
                         </button>

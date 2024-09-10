@@ -15,8 +15,6 @@ const useCreatePostViewModel = () => {
   const navigate = useNavigate();
   const { token, userInfo } = useSelector((state) => state.auth);
 
-  console.log(token);
-
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
 
@@ -86,7 +84,6 @@ const handelRemoveCover =()=>{
           },
         }
       );
-      console.log(response);
 
       const data = response.data;
       if (data.apiResponseCode === "200") {
