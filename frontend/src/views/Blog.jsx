@@ -27,7 +27,7 @@ function Blog() {
               className="px-8 bg-[#4C1A84] hover:bg-[#d60b8c] duration-200 text-white py-2 rounded  font-bold"
               onClick={()=>navigate('/new/blog')}
             >
-              Post
+              Write Blog
             </button>
           </div>
         </div>

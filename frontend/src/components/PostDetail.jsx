@@ -5,7 +5,6 @@ import { RiShareForward2Fill } from "react-icons/ri";
 import RecentPost from "./RecentPost";
 import { BiSolidLike } from "react-icons/bi";
 import Recommendation from "./Recommendation";
-import CommentList from "../views/CommentList";
 import useFormate from "../hooks/useFormate";
 import { Markup } from "interweave";
 import { Link, useParams } from "react-router-dom";
@@ -14,6 +13,7 @@ import getAllPost from "../model/getAllPost";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { handelModal } from "../redux/slices/handelLoginSlice";
+import ScrollToTop from "./ScrollToTop";
 
 const PostDetail = () => {
   const [error, setError] = useState(null);
@@ -82,126 +82,133 @@ const PostDetail = () => {
   const { posts: allposts } = getAllPost(posts?.user?.id);
 
   return (
-    <div className="flex justify-center bg-gray-100 py-8">
-      <div className="relative md:w-20 z-50">
-        <div className="fixed flex flex-col max-md:bottom-0 max-md:flex-row max-md:justify-evenly max-md:w-full max-md:bg-white">
-          <button
-            className="mb-4 p-2 max-md:flex gap-2"
-            onClick={handleLikedToggle}
-          >
-            <BiSolidLike
-              className={`text-3xl ${isLiked ? "text-blue-500" : ""}`}
-            />
-            <p className="text-sm max-md:text-xl max-md:m-auto">{likecount}</p>
-          </button>
-          <button className="mb-4 p-2 max-md:flex gap-2">
-            <IoChatbubbleEllipsesOutline className="text-3xl" />
-            <p className="text-sm max-md:text-xl max-md:m-auto">
-              {posts?.commentsCount}
-            </p>
-          </button>
-          <button className="mb-4 p-2 max-md:flex">
-            <RiShareForward2Fill className="text-3xl" />
-          </button>
+    <>
+    <ScrollToTop/>
+      <div className="flex justify-center bg-gray-100 py-8">
+        <div className="relative md:w-20 z-50">
+          <div className="fixed flex flex-col max-md:bottom-0 max-md:flex-row max-md:justify-evenly max-md:w-full max-md:bg-white">
+            <button
+              className="mb-4 p-2 max-md:flex gap-2"
+              onClick={handleLikedToggle}
+            >
+              <BiSolidLike
+                className={`text-3xl ${isLiked ? "text-blue-500" : ""}`}
+              />
+              <p className="text-sm max-md:text-xl max-md:m-auto">
+                {likecount}
+              </p>
+            </button>
+            <button className="mb-4 p-2 max-md:flex gap-2">
+              <IoChatbubbleEllipsesOutline className="text-3xl" />
+              <p className="text-sm max-md:text-xl max-md:m-auto">
+                {posts?.commentsCount}
+              </p>
+            </button>
+            <button className="mb-4 p-2 max-md:flex">
+              <RiShareForward2Fill className="text-3xl" />
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className="flex max-md:flex-wrap justify-center">
-        <div>
-          <div className="max-w-4xl bg-white shadow-lg rounded-lg p-6 flex-grow">
-            <img src={posts?.coverImage} alt="" className="w-full" />
-            <div className="flex items-center justify-between mt-3">
-              <div className="flex items-center">
-                <img
-                  className="w-12 h-12 rounded-full mr-4"
-                  src={posts?.user?.profileImage}
-                  alt="User avatar"
-                />
+        <div className="flex max-md:flex-wrap justify-center">
+          <div>
+            <div className="max-w-4xl bg-white shadow-lg rounded-lg p-6 flex-grow">
+              <img src={posts?.coverImage} alt="" className="w-full" />
+              <div className="flex items-center justify-between mt-3">
+                <div className="flex items-center">
+                  <img
+                    className="w-12 h-12 rounded-full mr-4"
+                    src={posts?.user?.profileImage}
+                    alt="User avatar"
+                  />
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-900">
+                      {posts?.user?.name}
+                    </h2>
+                    <p className="text-sm text-gray-500">
+                      Posted on {useFormate(posts?.createdAt)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="my-4">
+                <h1 className="md:text-3xl text-xl font-bold text-gray-900">
+                  {posts?.title}
+                </h1>
+                <div className="flex flex-wrap items-center space-x-1 md:space-x-2 mt-2">
+                  {posts?.tagList?.map((tag, i) => (
+                    <span key={i} className="sm:text-sm text-xs text-[#4c1886]">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="text-gray-700">
+                <Markup content={posts?.content || "Content not available"} />
+              </div>
+              <div>
+                <h1 className="text-xl font-semibold pt-5 pb-5">Top Comment</h1>
+                {/* <CommentList /> */}
+              </div>
+            </div>
+            <Recommendation />
+          </div>
+
+          <div className="md:ml-8 p-4 w-96 max-md:w-full">
+            <div className="text-center bg-white relative">
+              <div className="bg-[#d60b8c] w-full h-1 mt-10"></div>
+              <img
+                className="w-24 h-24 rounded-full mx-auto mb-4 -mt-10"
+                src={posts?.user?.profileImage}
+                alt="User avatar"
+              />
+              <h2 className="text-lg font-semibold text-gray-900">
+                {posts?.user?.name}
+              </h2>
+              <p className="text-sm text-gray-500">{posts?.user?.summary}</p>
+              <div className="pt-3">
+                <button className="bg-[#4C1A84] w-4/5 p-1 text-white rounded-md">
+                  Follow
+                </button>
+              </div>
+              <p className="p-4 text-gray-800">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Tempora, est? Lorem ipsum dolor lorem shife sit amet consectetur
+                adipisicing elit. Minima, in.
+              </p>
+              <div className="text-left ml-12 pb-5">
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    {posts?.user?.name}
-                  </h2>
-                  <p className="text-sm text-gray-500">
-                    Posted on {useFormate(posts?.createdAt)}
-                  </p>
+                  <h6 className="text-base">Location</h6>
+                  <span className="text-sm text-gray-500">Sector 60 Nodia</span>
+                </div>
+                <div>
+                  <h6 className="text-base">Experience</h6>
+                  <span className="text-sm text-gray-500">3 Years</span>
                 </div>
               </div>
             </div>
-            <div className="my-4">
-              <h1 className="md:text-3xl text-xl font-bold text-gray-900">
-                {posts?.title}
-              </h1>
-              <div className="flex flex-wrap items-center space-x-1 md:space-x-2 mt-2">
-                {posts?.tagList?.map((tag, i) => (
-                  <span key={i} className="sm:text-sm text-xs text-[#4c1886]">
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="text-gray-700">
-              <Markup content={posts?.content || "Content not available"} />
-            </div>
-            <div>
-              <h1 className="text-xl font-semibold pt-5 pb-5">Top Comment</h1>
-              <CommentList />
-            </div>
-          </div>
-          <Recommendation />
-        </div>
-
-        <div className="md:ml-8 p-4 w-96 max-md:w-full">
-          <div className="text-center bg-white relative">
-            <div className="bg-[#d60b8c] w-full h-1 mt-10"></div>
-            <img
-              className="w-24 h-24 rounded-full mx-auto mb-4 -mt-10"
-              src={posts?.user?.profileImage}
-              alt="User avatar"
-            />
-            <h2 className="text-lg font-semibold text-gray-900">
-              {posts?.user?.name}
-            </h2>
-            <p className="text-sm text-gray-500">{posts?.user?.summary}</p>
-            <div className="pt-3">
-              <button className="bg-[#4C1A84] w-4/5 p-1 text-white rounded-md">
-                Follow
-              </button>
-            </div>
-            <p className="p-4 text-gray-800">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora,
-              est? Lorem ipsum dolor lorem shife sit amet consectetur
-              adipisicing elit. Minima, in.
-            </p>
-            <div className="text-left ml-12 pb-5">
+            <div className="bg-white mt-5 p-4 md:sticky md:top-28">
+              <h3 className="font-semibold mb-5">
+                More from {posts?.user?.name}
+              </h3>
               <div>
-                <h6 className="text-base">Location</h6>
-                <span className="text-sm text-gray-500">Sector 60 Nodia</span>
+                {allposts.length <= 1
+                  ? `No more Post from ${posts?.user?.name}`
+                  : allposts
+                      ?.filter((post) => post.id !== id)
+                      .slice(0, 4)
+                      .map((post) => (
+                        <Link to={`/post/${post.id}`} key={post.id}>
+                          <RecentPost post={post} />
+                        </Link>
+                      ))}
               </div>
-              <div>
-                <h6 className="text-base">Experience</h6>
-                <span className="text-sm text-gray-500">3 Years</span>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white mt-5 p-4 md:sticky md:top-28">
-            <h3 className="font-semibold mb-5">More from Talia</h3>
-            <div>
-              {allposts.length === 0
-                ? `No more Post from ${posts?.user?.name}`
-                : allposts
-                    ?.filter((post) => post.id !== id)
-                    .slice(0, 4)
-                    .map((post) => (
-                      <Link to={`/post/${post.id}`} key={post.id}>
-                        <RecentPost post={post} />
-                      </Link>
-                    ))}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

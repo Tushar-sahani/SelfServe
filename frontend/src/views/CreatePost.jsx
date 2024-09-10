@@ -1,7 +1,7 @@
 import React from "react";
 import useCreatePostViewModel from "../viewModels/CreatePostViewModel";
 import ReactQuill from "react-quill";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,14 +17,15 @@ const CreatePost = () => {
     handleDescriptionChange,
     handleContentChange,
     handleContentFileChange,
+    handelRemoveCover,
     publishPost,
     handleAddSkill,
     handleRemoveSkill,
   } = useCreatePostViewModel();
 
-  const {category} = useParams();
+  const { category } = useParams();
   console.log(category);
-  
+
   const coverImagePreview = coverImage ? URL.createObjectURL(coverImage) : "";
 
   const modules = {
@@ -92,7 +93,7 @@ const CreatePost = () => {
                 </label>
                 <button
                   className="text-red-600 my-auto h-10"
-                  onClick={() => setCoverImage(null)}
+                  onClick={handelRemoveCover}
                 >
                   Remove
                 </button>
@@ -105,7 +106,9 @@ const CreatePost = () => {
               type="text"
               value={title}
               onChange={handleTitleChange}
-              placeholder={`New ${category==="post"?"Post":"Blog"} title here...`}
+              placeholder={`New ${
+                category === "post" ? "Post" : "Blog"
+              } title here...`}
               className="w-full placeholder:text-[#434242] bg-transparent pt-2 mb-4 text-4xl font-bold placeholder:text-4xl text-gray-700 border-gray-300 focus:outline-none focus:border-indigo-500"
             />
             <input
@@ -160,10 +163,7 @@ const CreatePost = () => {
           onClick={publishPost}
           className="px-4 py-2 w-52 text-white bg-purple-600 rounded-lg"
         >
-          {
-            loading?"Posting...":"Publish"
-          }
-          
+          {loading ? "Posting..." : "Publish"}
         </button>
         <button
           onClick={() => navigate("/")}

@@ -10,7 +10,7 @@ const PostButton = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
   
   const handelPostButton=()=>{
-    isAuthenticated?navigate('/newpost'):dispatch(handelModal(true))
+    isAuthenticated?navigate('/new/post'):dispatch(handelModal(true))
   }
   return (
     <div className=" bg-[#4C1A84] border-2 p-4 rounded-full group cursor-pointer fixed md:right-10 right-5 md:bottom-10  bottom-5  box-border z-[50]" onClick={handelPostButton}>

@@ -30,7 +30,9 @@ const useCreatePostViewModel = () => {
       setCoverImage(file);
     }
   };
-
+const handelRemoveCover =()=>{
+  setCoverImage(null);
+}
   const handleAddSkill = (e) => {
     const value = e.target.value.trim();
     if (value && !tags.includes(value)) {
@@ -123,6 +125,7 @@ const useCreatePostViewModel = () => {
     handleDescriptionChange,
     handleContentChange,
     handleContentFileChange,
+    handelRemoveCover,
     publishPost,
     handleAddSkill,
     handleRemoveSkill,

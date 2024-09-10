@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 const getAllPost = (id) => {
-  // console.log("id is comming",id);
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [posts, setPosts] = useState([]);
-
-  const { token } = useSelector((store) => store.auth);
 
   useEffect(() => {
     const fetchAllPost = async () => {
@@ -24,8 +20,6 @@ const getAllPost = (id) => {
           //   },
           // }
         );
-
-        // console.log(response);
         
         if (response.data.apiResponseCode === "200") {
           

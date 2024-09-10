@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { recentpost, mostfollowed } from "../utils/SidebarData";
 import RecentPost from "../components/RecentPost";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { handelModal } from "../redux/slices/handelLoginSlice";
+import filterContentModel from "../model/filterContentModel";
 
 const Sidebar = () => {
+  // const [todaysPost, setTodaysPost] = useState([]);
+  // const [topOfWeek, setTopOfWeek] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -13,6 +16,29 @@ const Sidebar = () => {
   const handelPostButton = () => {
     isAuthenticated ? navigate("/new/post") : dispatch(handelModal(true));
   };
+
+  //Optamise way of handeling the api calls this will avoid the rerendering <<<< use later
+
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     try {
+  //       const data = await filterContentModel("Past24HoursPost");
+  //       // Update state with fetched data
+  //       setTodaysPost(data.posts); 
+  //     } catch (err) {
+  //       // Handle any errors
+  //       console.log(err.message);
+  //     }
+  //   };
+
+  //   fetchPosts();
+  // }, []);
+
+  const { posts: todaysPost } = filterContentModel("Past24HoursPost");
+
+  // setTodaysPost(todaypost);
+  const { posts: topOfWeek } = filterContentModel("WeekPosts");
+  // setTopOfWeek(todaypost);
   return (
     <div className=" md:w-1/3 xl:w-1/4 p-4 md:mt-8 ">
       {/* Post Button */}
@@ -49,17 +75,29 @@ const Sidebar = () => {
       {/* Todays Post */}
       <div className="mb-8 p-5 bg-white">
         <h2 className="text-lg text-[#d60b8c] mb-4">Today's Posts</h2>
-        {recentpost.map((post, index) => (
-          <RecentPost post={post} key={index} index={index} />
-        ))}
+        {todaysPost.length > 0 ? (
+          todaysPost.map((post, index) => (
+            <Link to={`/post/${post.id}`} key={post.id}>
+              <RecentPost post={post} index={index} />
+            </Link>
+          ))
+        ) : (
+          <h1>Create Today's first Post!</h1>
+        )}
       </div>
 
       {/* Top week */}
       <div className="mb-6 bg-white p-5">
         <h2 className="text-[#d60b8c] text-lg mb-4">Top of the week</h2>
-        {recentpost.map((post, index) => (
-          <RecentPost post={post} key={index} index={index} />
-        ))}
+        {topOfWeek.length > 0 ? (
+          topOfWeek.slice(0, 5).map((post, index) => (
+            <Link to={`/post/${post.id}`} key={post.id}>
+              <RecentPost post={post} key={index} index={index} />
+            </Link>
+          ))
+        ) : (
+          <h1>No post Yet!</h1>
+        )}
       </div>
     </div>
   );
