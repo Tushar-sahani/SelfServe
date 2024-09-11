@@ -92,7 +92,6 @@ const useEditPostViewModel = () => {
       postImage: coverImage,
     };
 
-    console.log(datapost);
     
     try {
       setLoading(true);
@@ -121,6 +120,7 @@ const useEditPostViewModel = () => {
           },
         }
       );
+console.log(response);
 
       const data = response.data;
       if (data.apiResponseCode === "200") {

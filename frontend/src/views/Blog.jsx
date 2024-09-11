@@ -3,29 +3,20 @@ import { articles } from "../utils/blogData";
 import BlogCard from "../components/BlogCard";
 import BlogShimmer from "../components/BlogShimmer";
 import { useNavigate } from "react-router-dom";
-
+import Rapipay from "../assets/Rapipay1.png";
 function Blog() {
-
   const navigate = useNavigate();
   return (
     <div className="w-full md:w-2/3 m-auto md:p-5">
       <div className="sticky top-24 z-[99] px-5 bg-[#f7f7f7f3] max-md:bg-[#f7f7f7f5] after:content-[''] md:after:mt-4 after:block after:w-full after:h-0.5 after:bg-[#0000002e]">
-        <div className={`flex max-md:flex-col md:gap-20 gap-4 pt-3`}>
+        <div className={`flex md:gap-20 gap-4 pt-3`}>
           <h1 className="md:text-4xl text-xl font-extrabold text-[#000000bf] md:w-1/3">
             SelfServe Blog
           </h1>
-          <div className="md:text-xl w-full mt-auto max-md:mb-3 flex justify-between">
-            <div className="items-center flex gap-10">
-              <span className="font-medium cursor-pointer hover:text-[#d60b8c]">
-                Latest
-              </span>
-              <span className="font-medium  cursor-pointer hover:text-[#d60b8c]">
-                Top
-              </span>
-            </div>
+          <div className="md:text-xl w-full mt-auto max-md:mb-3 flex justify-end">
             <button
               className="px-8 bg-[#4C1A84] hover:bg-[#d60b8c] duration-200 text-white py-2 rounded  font-bold"
-              onClick={()=>navigate('/new/blog')}
+              onClick={() => navigate("/new/blog")}
             >
               Write Blog
             </button>
@@ -37,18 +28,16 @@ function Blog() {
           {/* Main Content */}
           <div className="lg:col-span-2 relative bg-white rounded-xl shadow-lg overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a"
+              src={Rapipay}
               alt="articles"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-end p-6">
-              <span className="inline-block w-24 bg-pink-500 text-white text-xs px-2 py-1 rounded-full uppercase font-semibold tracking-wide">
-                Inspiration
-              </span>
+
               <h2 className="text-2xl font-bold text-white mt-4">
-                5 Easy Ways You Can Turn Future Into Success
+               Read about the Success of Rapipay 
               </h2>
-              <p className="text-gray-300 mt-2">Katen Doe • August 20, 2022</p>
+              <p className="text-gray-300 mt-2">Rapipay Team • August 20, 2024</p>
             </div>
           </div>
 
@@ -189,11 +178,23 @@ function Blog() {
       </div>
 
       {/* All blogs */}
+      <div>
+        <h1 className="text-3xl p-3 my-4 font-bold">Daily Blogs</h1>
+        <div className="items-center flex gap-12 ml-2 mx-3 text-xl bg-white p-7 sticky top-40">
+          <span className="font-medium cursor-pointer hover:text-[#d60b8c]">
+            Latest
+          </span>
+          <span className="font-medium  cursor-pointer hover:text-[#d60b8c]">
+            Top
+          </span>
+        </div>
       <div className="p-3">
         {articles.map((article) => (
           <BlogCard blog={article} />
         ))}
       </div>
+      </div>
+
     </div>
   );
 }

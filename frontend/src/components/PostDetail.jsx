@@ -12,9 +12,9 @@ import PostDetailModel from "../model/PostDetailModel";
 import getAllPost from "../model/getAllPost";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { handelModal } from "../redux/slices/handelLoginSlice";
+import handelLoginSlice, { handelModal } from "../redux/slices/handelLoginSlice";
 import ScrollToTop from "./ScrollToTop";
-
+import CommentList from "../views/CommentList";
 const PostDetail = () => {
   const [error, setError] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
@@ -43,6 +43,12 @@ const PostDetail = () => {
     userId: userInfo?.id,
   };
 
+  const handleCommentToggle =()=>{
+    if (!isAuthenticated) {
+      dispatch(handelModal(true));
+      return;
+    }
+  }
   //This handel the like and dislike
   const handleLikedToggle = async () => {
     if (!isAuthenticated) {
@@ -98,7 +104,7 @@ const PostDetail = () => {
                 {likecount}
               </p>
             </button>
-            <button className="mb-4 p-2 max-md:flex gap-2">
+            <button className="mb-4 p-2 max-md:flex gap-2" onClick={handleCommentToggle}>
               <IoChatbubbleEllipsesOutline className="text-3xl" />
               <p className="text-sm max-md:text-xl max-md:m-auto">
                 {posts?.commentsCount}
@@ -153,7 +159,7 @@ const PostDetail = () => {
               </div>
               <div>
                 <h1 className="text-xl font-semibold pt-5 pb-5">Top Comment</h1>
-                {/* <CommentList /> */}
+                <CommentList />
               </div>
             </div>
             <Recommendation tags={posts.tagList} />

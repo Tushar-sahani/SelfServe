@@ -1,3 +1,5 @@
+import Rapipay from "../assets/Rapipay.jpeg"
+
 export const articles = [
     {
       name: "Aarav Sharma",

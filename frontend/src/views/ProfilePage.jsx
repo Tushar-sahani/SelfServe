@@ -29,6 +29,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const { user, error: profileError, loading } = getProfileModel(id);
   const { posts: personalPost } = getAllPost(id);
+console.log(user);
 
   useEffect(() => {
     if (personalPost) {
