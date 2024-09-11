@@ -1,32 +1,26 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import getAllPost from "./getAllPost";
 
-const getProfileModel = (id) => {
+const getAllBlog = (id) => {
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [user, setUser] = useState([]);
-
-  // const { token } = useSelector((store) => store.auth);
+  const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchAllBlog = async () => {
       try {
         const response = await axios.get(
           `http://${import.meta.env.VITE_IP_ADDRESS}:${
             import.meta.env.VITE_PORT
-          }/api/users/${id}`,
-          // {
-          //   headers: {
-          //     Authorization: `Bearer ${token}`,
-          //   },
-          // }
+          }/api/blog/user/${id}`,
         );
-
+        
         if (response.data.apiResponseCode === "200") {
-          if (response.data.apiResponseData.responseCode === "200") {
-            setUser(response.data.apiResponseData.responseData);
+          
+          if (response.data.apiResponseData.responseCode === 200) { //getting response code in integer not in string should be fixed @@@@@@
+        
+            setBlogs(response.data.apiResponseData.responseData);
           } else {
             setError(response.data.apiResponseData.responseMessage);
             // console.log(error);
@@ -44,14 +38,14 @@ const getProfileModel = (id) => {
       }
     };
 
-    fetchProfile();
-  }, []);
+    fetchAllBlog();
+  }, [id]);
 
   return {
-    user,
+    blogs,
     loading,
     error,
   };
 };
 
-export default getProfileModel;
+export default getAllBlog;

@@ -16,10 +16,8 @@ export const useSearchViewModel = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("calles happening");
       
       if (searchCache[searchQuery]) {
-        console.log("from chache");
         
         setSearchResults(searchCache[searchQuery]);
       } else {

@@ -1,9 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { PostData } from "../utils/PostData";
 import useFormate from "../hooks/useFormate";
+import axios from "axios";
 
-const Recommendation = () => {
-  
+const Recommendation = ({ tags }) => {
+  const [recommendPost, setRecommendPost] = useState([]);
+
+  // useEffect(() => {
+  //   const getRecommendedPost = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://${import.meta.env.VITE_IP_ADDRESS}:${
+  //           import.meta.env.VITE_PORT
+  //         }/api/article/recommend`,
+  //         {
+  //           tags: tags,
+  //         }
+  //       );
+
+  //       console.log(response);
+        
+  //       if (response.data.apiResponseCode === "200") {
+  //         if (response.data.apiResponseData.responseCode === "200") {
+  //           setRecommendPost(response.data.apiResponseData.responseData);
+  //         } else {
+  //           setError(response.data.apiResponseData.responseMessage);
+  //         }
+  //       } else {
+  //         setError(response.data.apiResponseMessage);
+  //       }
+  //     } catch (error) {
+  //       const errorMessage =
+  //         error.response?.data?.message || "Failed to Get recommendation post";
+  //       setError(errorMessage);
+  //     }
+  //   };
+
+  //   getRecommendedPost();
+  // }, [tags]);
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-10 bg-white mt-10 rounded-md">
       <div className="border-b mb-5 flex justify-between text-sm">
@@ -13,7 +47,7 @@ const Recommendation = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {PostData.slice(0, 6).map((post, i) => (
+        {PostData.map((post, i) => (
           <div
             className="rounded overflow-hidden shadow-lg flex flex-col"
             key={i}

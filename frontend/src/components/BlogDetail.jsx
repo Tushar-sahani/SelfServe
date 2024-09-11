@@ -8,7 +8,7 @@ import Recommendation from "./Recommendation";
 import useFormate from "../hooks/useFormate";
 import { Markup } from "interweave";
 import { Link, useParams } from "react-router-dom";
-import PostDetailModel from "../model/PostDetailModel";
+import blogDetailModel from "../model/blogDetailModel"
 import getAllPost from "../model/getAllPost";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -26,17 +26,17 @@ const PostDetail = () => {
     (store) => store.auth
   );
 
-  const { posts } = PostDetailModel(id);
+  const { posts } = blogDetailModel(id);
 
   const isPresent =
     isAuthenticated && posts?.likedUserIds?.includes(userInfo.id);
-
-  useEffect(() => {
-    if (isPresent !== undefined) {
-      setIsLiked(isPresent);
-    }
-    setlikecount(posts.likeCount);
-  }, [isPresent]);
+    
+//   useEffect(() => {
+//     if (isPresent !== undefined) {
+//       setIsLiked(isPresent);
+//     }
+//     setlikecount(posts.likeCount);
+//   }, [isPresent]);
 
   const articledata = {
     articleId: id,
@@ -44,39 +44,39 @@ const PostDetail = () => {
   };
 
   //This handel the like and dislike
-  const handleLikedToggle = async () => {
-    if (!isAuthenticated) {
-      dispatch(handelModal(true));
-      return;
-    }
-    try {
-      const response = await axios.post(
-        `http://${import.meta.env.VITE_IP_ADDRESS}:${
-          import.meta.env.VITE_PORT
-        }/api/article/likes`,
-        articledata,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+//   const handleLikedToggle = async () => {
+//     if (!isAuthenticated) {
+//       dispatch(handelModal(true));
+//       return;
+//     }
+//     try {
+//       const response = await axios.post(
+//         `http://${import.meta.env.VITE_IP_ADDRESS}:${
+//           import.meta.env.VITE_PORT
+//         }/api/article/likes`,
+//         articledata,
+//         {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         }
+//       );
 
-      if (
-        response.data.apiResponseCode === "200" &&
-        response.data.apiResponseData.responseCode === "200"
-      ) {
-        setlikecount(response.data.apiResponseData.responseData.likeCount);
-        setIsLiked((prev) => !prev);
-      } else {
-        setError(response.data.apiResponseData.responseMessage);
-      }
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to update like";
-      setError(errorMessage);
-    }
-  };
+//       if (
+//         response.data.apiResponseCode === "200" &&
+//         response.data.apiResponseData.responseCode === "200"
+//       ) {
+//         setlikecount(response.data.apiResponseData.responseData.likeCount);
+//         setIsLiked((prev) => !prev);
+//       } else {
+//         setError(response.data.apiResponseData.responseMessage);
+//       }
+//     } catch (error) {
+//       const errorMessage =
+//         error.response?.data?.message || "Failed to update like";
+//       setError(errorMessage);
+//     }
+//   };
 
   //All other posts related to the current post user
   const { posts: allposts } = getAllPost(posts?.user?.id);
@@ -89,13 +89,14 @@ const PostDetail = () => {
           <div className="fixed flex flex-col max-md:bottom-0 max-md:flex-row max-md:justify-evenly max-md:w-full max-md:bg-white">
             <button
               className="mb-4 p-2 max-md:flex gap-2"
-              onClick={handleLikedToggle}
+            //   onClick={handleLikedToggle}
             >
               <BiSolidLike
                 className={`text-3xl ${isLiked ? "text-blue-500" : ""}`}
               />
               <p className="text-sm max-md:text-xl max-md:m-auto">
-                {likecount}
+                {/* {likecount} */}
+                22
               </p>
             </button>
             <button className="mb-4 p-2 max-md:flex gap-2">
@@ -156,7 +157,7 @@ const PostDetail = () => {
                 {/* <CommentList /> */}
               </div>
             </div>
-            <Recommendation tags={posts.tagList} />
+            {/* <Recommendation tags={posts.tagList} /> */}
           </div>
 
           <div className="md:ml-8 p-4 w-96 max-md:w-full">

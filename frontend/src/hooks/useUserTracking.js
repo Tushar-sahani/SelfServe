@@ -50,8 +50,6 @@ const useUserTracking = () => {
               },
             }
           );
-
-          console.log(response.data);
         } catch (error) {
           console.error("Error tracking user info:", error);
         }

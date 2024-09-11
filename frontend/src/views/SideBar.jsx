@@ -76,7 +76,7 @@ const Sidebar = () => {
       <div className="mb-8 p-5 bg-white">
         <h2 className="text-lg text-[#d60b8c] mb-4">Today's Posts</h2>
         {todaysPost.length > 0 ? (
-          todaysPost.map((post, index) => (
+          todaysPost.slice(0, 5).map((post, index) => (
             <Link to={`/post/${post.id}`} key={post.id}>
               <RecentPost post={post} index={index} />
             </Link>

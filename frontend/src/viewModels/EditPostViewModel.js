@@ -1,22 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const useCreatePostViewModel = () => {
+const useEditPostViewModel = () => {
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState([]);
   const [content, setContent] = useState(null);
   const [description, setDescription] = useState("");
   const [coverImage, setCoverImage] = useState(null);
+  const [previewCoverImage, setPreviewCoverImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [id, setId] = useState("");
   const navigate = useNavigate();
   const { token, userInfo } = useSelector((state) => state.auth);
+
+  const { id } = useParams();
   
-  const {category} = useParams();
-  
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await axios.get(
+          `http://${import.meta.env.VITE_IP_ADDRESS}:${
+            import.meta.env.VITE_PORT
+          }/api/article/articleId/${id}`
+        );
+        const data = response.data;
+    
+        if (data.apiResponseCode === "200") {
+          const post = data.apiResponseData.responseData;
+          console.log("post",post);
+          
+          setTitle(post.title);
+          setDescription(post.description);
+          setContent(post.content);
+          setTags(post.tagList || []);
+          setPreviewCoverImage(post?.coverImage) 
+        } else {
+          toast.error(data.apiResponseMessage, { autoClose: 3000 });
+        }
+      } catch (error) {
+        // console.error("Error fetching post:", error);
+        toast.error("Failed to fetch post details.");
+      }
+    };
+
+    fetchPost();
+  }, [id, token]);
 
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
@@ -31,9 +61,11 @@ const useCreatePostViewModel = () => {
       setCoverImage(file);
     }
   };
-const handelRemoveCover =()=>{
-  setCoverImage(null);
-}
+
+  const handleRemoveCover = () => {
+    setCoverImage(null);
+  };
+
   const handleAddSkill = (e) => {
     const value = e.target.value.trim();
     if (value && !tags.includes(value)) {
@@ -48,18 +80,20 @@ const handelRemoveCover =()=>{
     setTags(tags.filter((skill) => skill !== skillToRemove));
   };
 
-  const publishPost = async () => {
+  const updatePost = async () => {
     const datapost = {
       raw: {
-        title: title,
+        title,
         tagList: tags,
-        description: description,
-        content: content,
+        description,
+        content,
         user: userInfo,
       },
       postImage: coverImage,
     };
 
+    console.log(datapost);
+    
     try {
       setLoading(true);
       if (title.trim() === "") {
@@ -74,11 +108,11 @@ const handelRemoveCover =()=>{
         toast.error("At least two tags are required.", { autoClose: 2000 });
         return;
       }
-
-      const response = await axios.post(
+      
+      const response = await axios.patch(
         `http://${import.meta.env.VITE_IP_ADDRESS}:${
           import.meta.env.VITE_PORT
-        }/api/article/post/${category}`,
+        }/api/article/${id}`,
         datapost,
         {
           headers: {
@@ -91,11 +125,10 @@ const handelRemoveCover =()=>{
       const data = response.data;
       if (data.apiResponseCode === "200") {
         if (data.apiResponseData.responseCode === "200") {
-          toast.success(`${category.charAt(0).toUpperCase()+category.slice(1,category.length)} published successfully!`, {
+          toast.success(`Post updated successfully!`, {
             autoClose: 1800,
           });
-          setId(response.data.apiResponseData.responseData.id);
-          navigate(`/${category}/${response.data.apiResponseData.responseData.id}`);
+          navigate(`/post/${id}`);
         } else {
           // Error at Spring Level
           const errorMessage = data.apiResponseData.responseMessage;
@@ -107,8 +140,8 @@ const handelRemoveCover =()=>{
         toast.error(errorMessage, { autoClose: 3000 });
       }
     } catch (error) {
-      console.error("Error publishing post:", error);
-      toast.error("Failed to publish post. Please try again.");
+      console.error("Error updating post:", error);
+      toast.error("Failed to update post. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -121,15 +154,17 @@ const handelRemoveCover =()=>{
     content,
     coverImage,
     loading,
+    previewCoverImage,
+    setPreviewCoverImage,
     handleTitleChange,
     handleDescriptionChange,
     handleContentChange,
     handleContentFileChange,
-    handelRemoveCover,
-    publishPost,
+    handleRemoveCover,
+    updatePost,
     handleAddSkill,
     handleRemoveSkill,
   };
 };
 
-export default useCreatePostViewModel;
+export default useEditPostViewModel;

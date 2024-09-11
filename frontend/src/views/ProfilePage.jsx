@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link,useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import {toast } from 'react-toastify';
@@ -26,6 +26,7 @@ const ProfilePage = () => {
   const [posts, setPosts] = useState([]);
   const { token, isAuthenticated } = useSelector((store) => store.auth);
 
+  const navigate = useNavigate();
   const { user, error: profileError, loading } = getProfileModel(id);
   const { posts: personalPost } = getAllPost(id);
 
@@ -34,7 +35,6 @@ const ProfilePage = () => {
       setPosts(personalPost);
     }
   },[personalPost]);
-  console.log(posts);
   
   useEffect(() => {
     if (deleteConfirmation && deletedId !== null) {
@@ -97,7 +97,7 @@ const ProfilePage = () => {
                 <p className="text-gray-400">Followers</p>
               </div>
               <div>
-                <p className="font-bold text-gray-700 text-xl">10</p>
+                <p className="font-bold text-gray-700 text-xl">{posts.length}</p>
                 <p className="text-gray-400">Posts</p>
               </div>
             </div>
@@ -111,9 +111,6 @@ const ProfilePage = () => {
               </div>
             </div>
             <div className="md:space-x-8 flex justify-evenly mt-20 md:mt-0 md:justify-center">
-              <button className="text-white py-2 px-4 uppercase rounded bg-[#4C1A84] hover:bg-[#34115c] shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-                Follow
-              </button>
               <button className="text-white py-2 px-4 uppercase rounded bg-[#4C1A84] hover:bg-[#34115c] shadow hover:shadow-lg transition transform hover:-translate-y-0.5">
                 <LuMailPlus className="text-3xl" />
               </button>
@@ -164,7 +161,7 @@ const ProfilePage = () => {
                         />
 
                         <div>
-                          <h2 className="lg:text-lg md:text-md max-md:text-xs w-11/12 font-bold cursor-pointer hover:text-[#d60b8c] mb-1">
+                          <h2 className="lg:text-lg md:text-md max-md:text-xs font-bold cursor-pointer hover:text-[#d60b8c] mb-1">
                             {data.title}
                           </h2>
                           <div className="text-[#2a2836] text-sm">
@@ -177,7 +174,7 @@ const ProfilePage = () => {
                     </Link>
                     {isAuthenticated && (
                       <div className="flex md:gap-8 gap-4 absolute right-4 top-2 md:top-5 md:right-2 z-50 mt-5 md:mt-0">
-                        <button className="text-[#4C1A84] md:text-3xl">
+                        <button className="text-[#4C1A84] md:text-3xl" onClick={()=>navigate(`/edit/${data.id}`)}>
                           <BiEdit />
                         </button>
                         <button

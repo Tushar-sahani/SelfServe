@@ -114,14 +114,14 @@ const Navbar = () => {
                     />
                   </div>
                 ) : (
-                  <li
+                  <span
                     className={`hover:text-[#d60b8c] ${
                       isAuthenticated && "hidden"
                     } text-xl cursor-pointer after:content-[''] after:block after:h-1 after:w-full after:bg-[#d60b8c] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-linear hover:after:scale-x-100`}
                     onClick={handleLoginClick}
                   >
                     Login
-                  </li>
+                  </span>
                 )}
 
                 {isProfileOpen && (
