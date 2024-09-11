@@ -1,18 +1,27 @@
 const express= require('express');
-const axios= require('axios');
+//const axios= require('axios');
 const router=express.Router();
+const articleControllers=require('../controllers/articleControllers');
+const jwtVerify=require("../middleware/auth");
+const multer=require('multer');
+const {storage}=require('../cloudConfig.js');
+const upload=multer({storage});
+const likeControllers=require('../controllers/articleLike.js');
 
-router.post('/' ,async (req,res)=>{
-    const articleData=req.body;
-    try{
-        const response= await axios.post('http://172.16.51.78:8081/api/articles',articleData);
-        res.status(200).json(response.data);
-    }
-    catch(error){
-        console.error('Error creating article:', error.message);
-        res.status(500).json({ error: 'Failed to create article' });
-    }
-});
+
+router.post('/post/:key', jwtVerify.verifyToken,upload.single('postImage'),articleControllers.postArticle);
+router.get( '/articleId/:articleId',articleControllers.getArticleByArticleId);
+router.get('/user/:userId',articleControllers.getArticleByIdUserId );
+router.get('/title/:titleName', articleControllers.getArticleByTitleName);
+router.patch('/:articleId',jwtVerify.verifyToken,upload.single('postImage'), articleControllers.patchByArticleId);
+router.get("/allArticle/:key",articleControllers.getAllArticle);
+router.delete("/deleteArticle/:id",jwtVerify.verifyToken,articleControllers.deletArticleById);
+router.get("/recommend",articleControllers.recommedPost);
+
+
+router.post("/likes",jwtVerify.verifyToken,likeControllers.likePost);
+router.get("/likes/:articleId",likeControllers.getLikeCount);
+router.delete("/likes",jwtVerify.verifyToken,likeControllers.unLikeArticle);
 
 module.exports=router;
-// http://172.16.51.78:8081/api/comments
+// http://localhost:8081/api/comments
