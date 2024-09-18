@@ -4,9 +4,9 @@ const BlogShimmer = () => {
   return (
     <div className="p-3 h-screen mt-20">
       <div className="max-w-7xl flex max-md:flex-col m-auto w-full gap-10 md:mt-10">
-        <div class="flex items-center justify-center w-full h-60 md:w-[40rem] md:h-[35rem] bg-gray-300 rounded ">
+        <div className="flex items-center justify-center w-full h-60 md:w-[40rem] md:h-[35rem] bg-gray-300 rounded ">
           <svg
-            class="w-10 h-10 bg-gray-300 text-gray-200 dark:text-gray-400"
+            className="w-10 h-10 bg-gray-300 text-gray-200 dark:text-gray-400"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -21,8 +21,8 @@ const BlogShimmer = () => {
             <div className="border shadow rounded-md p-10 w-full mx-auto">
               {Array(5)
                 .fill(null)
-                .map(() => (
-                  <div className="animate-pulse flex space-x-4">
+                .map((_,i) => (
+                  <div key={i} className="animate-pulse flex space-x-4">
                     <div className="rounded-full bg-gray-300 h-8 w-8 md:h-10 md:w-10"></div>
                     <div className="flex-1 space-y-6 py-1">
                       <div className="h-2 bg-gray-300 rounded"></div>

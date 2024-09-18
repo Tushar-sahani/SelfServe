@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import useEditPostViewModel from "../viewModels/EditPostViewModel";
 import ReactQuill from "react-quill";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "../components/ScrollToTop";

@@ -57,27 +57,20 @@ const Footer = () => {
                   <li>
                     <Link
                       className="text-white hover:text-[#d60b8c] font-semibold block pb-2 "
+                      to="/blog"
+                    >
+                      Blog
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="text-white hover:text-[#d60b8c] font-semibold block pb-2 "
                       to="/about"
                     >
                       About Us
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      className="text-white hover:text-[#d60b8c] font-semibold block pb-2 "
-                      to="/company"
-                    >
-                      Company
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-white hover:text-[#d60b8c] font-semibold block pb-2 "
-                      to="/login"
-                    >
-                      Login
-                    </Link>
-                  </li>
+                  
                 </ul>
               </div>
               <div className="w-full lg:w-4/12 px-4">

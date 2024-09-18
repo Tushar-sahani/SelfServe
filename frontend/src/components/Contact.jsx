@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 const ContactPage = () => {
   const { token } = useSelector((store) => store.auth);
 
-  console.log(token);
 
   const [formData, setFormData] = useState({
     name: "",

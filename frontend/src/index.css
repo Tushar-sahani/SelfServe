@@ -12,6 +12,10 @@ body{
   background: #16161655;
 }
 
+.scrollhide::-webkit-scrollbar {
+  display: none;
+}
+
 *::-webkit-scrollbar-thumb {
   background-color: #11111192;
   border-radius: 15px;

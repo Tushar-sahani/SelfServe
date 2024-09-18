@@ -39,7 +39,7 @@ const CreatePost = () => {
         { align: "right" },
         { align: "justify" },
       ],
-      ["link","image"],
+      ["link","image","video"],
       ["clean"],
     ],
     clipboard: {

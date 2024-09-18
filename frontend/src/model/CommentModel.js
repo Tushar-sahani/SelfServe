@@ -1,50 +1,45 @@
-export const CommentModel = {
-    comments: {
-      firstLevelIds: [],
-    },
-  
-    addComment(newComment) {
-      this.comments = {
-        ...this.comments,
-        firstLevelIds: this.comments.firstLevelIds.concat(newComment.id),
-        [newComment.id]: newComment,
-      };
-    },
-  
-    deleteComment(commentId) {
-      const updatedComments = { ...this.comments };
-      const comment = updatedComments[commentId];
-      const childComments = comment.children;
-  
-      if (childComments.length > 0) {
-        childComments.forEach((id) => delete updatedComments[id]);
-      }
-  
-      delete updatedComments[commentId];
-  
-      if (comment.parentId === null) {
-        updatedComments.firstLevelIds = updatedComments.firstLevelIds.filter(
-          (id) => id !== commentId
-        );
-      } else {
-        updatedComments[comment.parentId].children = updatedComments[
-          comment.parentId
-        ].children.filter((id) => id !== commentId);
-      }
-  
-      this.comments = updatedComments;
-    },
-  
-    addReply(newComment, parentId) {
-      const updatedParentComment = {
-        ...this.comments[parentId],
-        children: this.comments[parentId].children.concat(newComment.id),
-      };
-      this.comments = {
-        ...this.comments,
-        [parentId]: updatedParentComment,
-        [newComment.id]: newComment,
-      };
-    },
-  };
-  
+import axios from 'axios';
+
+const API_URL = 'http://171.16.51.78:5000/api/comments';
+
+// Fetch
+export const fetchComments = async () => {
+  try {
+    const response = await axios.get(API_URL);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    throw error;
+  }
+};
+
+export const postComment = async (newComment) => {
+  try {
+    const response = await axios.post(API_URL, newComment);
+    return response.data;
+  } catch (error) {
+    console.error('Error posting comment:', error);
+    throw error;
+  }
+};
+
+// Update
+export const updateComment = async (id, updatedText) => {
+  try {
+    const response = await axios.put(`${API_URL}/${id}`, { text: updatedText });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating comment:', error);
+    throw error;
+  }
+};
+
+// Delete
+export const deleteComment = async (id) => {
+  try {
+    await axios.delete(`${API_URL}/${id}`);
+  } catch (error) {
+    console.error('Error deleting comment:', error);
+    throw error;
+  }
+};

@@ -11,7 +11,6 @@ const useCreatePostViewModel = () => {
   const [description, setDescription] = useState("");
   const [coverImage, setCoverImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [id, setId] = useState("");
   const navigate = useNavigate();
   const { token, userInfo } = useSelector((state) => state.auth);
   
@@ -35,7 +34,7 @@ const handelRemoveCover =()=>{
   setCoverImage(null);
 }
   const handleAddSkill = (e) => {
-    const value = e.target.value.trim();
+    const value = e.target.value.trim().toLowerCase();
     if (value && !tags.includes(value)) {
       if (e.key === " " || e.key === "Enter") {
         setTags([...tags, value]);
@@ -91,19 +90,24 @@ const handelRemoveCover =()=>{
       const data = response.data;
       if (data.apiResponseCode === "200") {
         if (data.apiResponseData.responseCode === "200") {
+          console.log("inside success<<<<<<<<",response);
+          
           toast.success(`${category.charAt(0).toUpperCase()+category.slice(1,category.length)} published successfully!`, {
             autoClose: 1800,
           });
-          setId(response.data.apiResponseData.responseData.id);
-          navigate(`/${category}/${response.data.apiResponseData.responseData.id}`);
+          navigate(`/${category}/${response.data.apiResponseData.responseData.id}`,{ replace: true });
         } else {
           // Error at Spring Level
           const errorMessage = data.apiResponseData.responseMessage;
+          console.log("spring labal<<<<<<<<<",errorMessage);
+          
           toast.error(errorMessage, { autoClose: 3000 });
         }
       } else {
         // Error at node level
         const errorMessage = data.apiResponseMessage;
+        console.log("node label labal<<<<<<<",errorMessage);
+
         toast.error(errorMessage, { autoClose: 3000 });
       }
     } catch (error) {

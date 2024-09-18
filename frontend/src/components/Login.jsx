@@ -35,6 +35,8 @@ const Login = ({ isOpen, onClose }) => {
 
       if (data.apiResponseCode === "200") {
         if (data.apiResponseData.responseCode === "200") {
+          console.log(data.apiResponseData.responseData);
+          
           toast.success("Login successful!", {
             autoClose: 1000,
           });

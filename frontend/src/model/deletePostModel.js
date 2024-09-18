@@ -27,11 +27,11 @@
 //             setDeletedId(response.data.apiResponseData.responseData.id);
 //           } else {
 //             setError(response.data.apiResponseData.responseMessage);
-//             // console.log(error);
+//             // ////console.log(error);
 //           }
 //         } else {
 //           setError(response.data.apiResponseMessage);
-//           //   console.log(error);
+//           //   ////console.log(error);
 //         }
 //       } catch (error) {
 //         const errorMessage =

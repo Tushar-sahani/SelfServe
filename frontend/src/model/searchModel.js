@@ -5,9 +5,9 @@ const fetchSearchResults = async (query) => {
     const response = await axios.get(
       `http://${import.meta.env.VITE_IP_ADDRESS}:${import.meta.env.VITE_PORT}/api/article/title/${query}`
     );
-
+    
     if (response.data.apiResponseCode === "200") {
-      if (response.data.apiResponseData.responseCode === 200) {
+      if (response.data.apiResponseData.responseCode === '200') {
         return { data: response.data.apiResponseData.responseData, error: null };
       } else {
         return { data: [], error: response.data.apiResponseData.responseMessage };

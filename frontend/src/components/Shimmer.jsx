@@ -1,9 +1,9 @@
 import React from "react";
 
-const Shimmer = () => {
+const Shimmer = ({size}) => {
   return (
     <div className="flex flex-col gap-7">
-      {Array(10)
+      {Array(size)
         .fill(null)
         .map((_, index) => (
           <div

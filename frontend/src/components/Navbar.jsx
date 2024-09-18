@@ -7,38 +7,8 @@ import { logout } from "../redux/slices/authSlice";
 import { handelModal } from "../redux/slices/handelLoginSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
-// import { useDispatch } from "react-redux";
-import { setCredentials, setToken } from "../redux/slices/authSlice";
 
 const Navbar = () => {
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // console.log("userId at frontend : ");
-        const userId = Cookies.get("token"); // Adjust the cookie name as needed
-
-        // console.log("userId at frontend : ", userId);
-        if (!userId) {
-          throw new Error("No user ID found in cookies");
-        }
-
-        const response = await axios.get(
-          `http://${import.meta.env.VITE_IP_ADDRESS}:${
-            import.meta.env.VITE_PORT
-          }/api/users/${userId}`,
-          { withCredentials: true } // Ensure cookies are sent with the request
-        );
-        // setData(response.data);
-        dispatch(setCredentials(data.apiResponseData.responseData));
-        dispatch(setToken(data.apiResponseData.token));
-      } catch (err) {
-        // console.log("error : ", err);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -68,15 +38,20 @@ const Navbar = () => {
 
   const { isAuthenticated, userInfo } = useSelector((store) => store.auth);
 
+  
   const handleLogout = () => {
     toast.success("Logged out successfully!  Redirecting to Landing page...", {
-      autoClose: 2000,
+      autoClose: 550,
     });
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       dispatch(logout());
       setIsProfileOpen(false);
       navigate("");
-    }, 2000);
+    }, 500);
+
+    timer();
+
+    clearInterval(timer);
   };
 
   const navItems = [
@@ -107,7 +82,7 @@ const Navbar = () => {
                 {isAuthenticated ? (
                   <div className="-mt-3 border border-[#d60b8c] rounded-full">
                     <img
-                      src={userInfo.profileImage}
+                      src={userInfo?.profileImage}
                       alt="profile"
                       className="w-14 h-14 m-auto rounded-full cursor-pointer"
                       onClick={handleProfileModal}

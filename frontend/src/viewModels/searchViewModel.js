@@ -34,7 +34,7 @@ export const useSearchViewModel = () => {
     if (searchQuery) {
       setLoading(true);
       const { data, error } = await fetchSearchResults(searchQuery);
-
+      
       setSearchResults(data);
       dispatch(
         cacheSuggestions({

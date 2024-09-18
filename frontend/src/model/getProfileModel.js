@@ -29,11 +29,11 @@ const getProfileModel = (id) => {
             setUser(response.data.apiResponseData.responseData);
           } else {
             setError(response.data.apiResponseData.responseMessage);
-            // console.log(error);
+            // ////console.log(error);
           }
         } else {
           setError(response.data.apiResponseMessage);
-          //   console.log(error);
+          //   ////console.log(error);
         }
       } catch (error) {
         const errorMessage =

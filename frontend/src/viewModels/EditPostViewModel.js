@@ -15,21 +15,31 @@ const useEditPostViewModel = () => {
   const navigate = useNavigate();
   const { token, userInfo } = useSelector((state) => state.auth);
 
-  const { id } = useParams();
+  const { category,id } = useParams();
+  
   
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(
-          `http://${import.meta.env.VITE_IP_ADDRESS}:${
-            import.meta.env.VITE_PORT
-          }/api/article/articleId/${id}`
-        );
+        let response;
+        if(category==="post"){
+          response = await axios.get(
+            `http://${import.meta.env.VITE_IP_ADDRESS}:${
+              import.meta.env.VITE_PORT
+            }/api/article/articleId/${id}`
+          );
+        }
+        else{
+          response = await axios.get(
+            `http://${import.meta.env.VITE_IP_ADDRESS}:${
+              import.meta.env.VITE_PORT
+            }/api/blog/blogId/${id}`
+          );
+        }
         const data = response.data;
     
         if (data.apiResponseCode === "200") {
           const post = data.apiResponseData.responseData;
-          console.log("post",post);
           
           setTitle(post.title);
           setDescription(post.description);
@@ -41,7 +51,7 @@ const useEditPostViewModel = () => {
         }
       } catch (error) {
         // console.error("Error fetching post:", error);
-        toast.error("Failed to fetch post details.");
+        toast.error(`Failed to fetch ${category} details.`);
       }
     };
 
@@ -67,7 +77,7 @@ const useEditPostViewModel = () => {
   };
 
   const handleAddSkill = (e) => {
-    const value = e.target.value.trim();
+    const value = e.target.value.trim().toLowerCase();
     if (value && !tags.includes(value)) {
       if (e.key === " " || e.key === "Enter") {
         setTags([...tags, value]);
@@ -111,7 +121,7 @@ const useEditPostViewModel = () => {
       const response = await axios.patch(
         `http://${import.meta.env.VITE_IP_ADDRESS}:${
           import.meta.env.VITE_PORT
-        }/api/article/${id}`,
+        }/api/article/editPost/${id}?key=${category}`,
         datapost,
         {
           headers: {
@@ -120,15 +130,14 @@ const useEditPostViewModel = () => {
           },
         }
       );
-console.log(response);
 
       const data = response.data;
       if (data.apiResponseCode === "200") {
         if (data.apiResponseData.responseCode === "200") {
-          toast.success(`Post updated successfully!`, {
+          toast.success(`${category} updated successfully!`, {
             autoClose: 1800,
           });
-          navigate(`/post/${id}`);
+          navigate(`/${category}/${id}`);
         } else {
           // Error at Spring Level
           const errorMessage = data.apiResponseData.responseMessage;
@@ -140,8 +149,8 @@ console.log(response);
         toast.error(errorMessage, { autoClose: 3000 });
       }
     } catch (error) {
-      console.error("Error updating post:", error);
-      toast.error("Failed to update post. Please try again.");
+      console.error(`Error updating ${category}:`, error);
+      toast.error(`Failed to update ${category}. Please try again.`);
     } finally {
       setLoading(false);
     }

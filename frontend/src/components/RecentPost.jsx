@@ -3,11 +3,11 @@ import useFormate from "../hooks/useFormate";
 
 const RecentPost = ({post,index}) => {
   return (
-    <div key={index} className="mb-4">
+    <div key={index} className="mb-4 break-all">
       <p className=" hover:text-[#d60b8c] cursor-pointer text-base">
         {post?.title?.slice(0,80)}{post?.title?.length>80&&'...'}
       </p>
-      <p className="text-sm text-gray-500">{useFormate(post.createdAt)}</p>
+      <p className="text-sm text-gray-500">{useFormate(post?.createdAtDate)}</p>
     </div>
   );
 };

@@ -12,7 +12,6 @@ const SearchView = () => {
 
   return (
     <div>
-      <h1>Search Example</h1>
       <SearchBar
         searchQuery={searchQuery}
         onSearchChange={handleSearchChange}

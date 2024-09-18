@@ -27,17 +27,18 @@ const Sidebar = () => {
   //       setTodaysPost(data.posts); 
   //     } catch (err) {
   //       // Handle any errors
-  //       console.log(err.message);
+  //       ////console.log(err.message);
   //     }
   //   };
 
   //   fetchPosts();
   // }, []);
 
-  const { posts: todaysPost } = filterContentModel("Past24HoursPost");
+  const { posts: todaysPost } = filterContentModel("Past24HoursPost",0,5);
 
-  // setTodaysPost(todaypost);
-  const { posts: topOfWeek } = filterContentModel("WeekPosts");
+ ////console.log("today",todaysPost);
+ 
+  const { posts: topOfWeek } = filterContentModel("WeekPosts",0,5);
   // setTopOfWeek(todaypost);
   return (
     <div className=" md:w-1/3 xl:w-1/4 p-4 md:mt-8 ">
@@ -75,8 +76,8 @@ const Sidebar = () => {
       {/* Todays Post */}
       <div className="mb-8 p-5 bg-white">
         <h2 className="text-lg text-[#d60b8c] mb-4">Today's Posts</h2>
-        {todaysPost.length > 0 ? (
-          todaysPost.slice(0, 5).map((post, index) => (
+        {todaysPost?.content?.length > 0 ? (
+          todaysPost?.content?.map((post, index) => (
             <Link to={`/post/${post.id}`} key={post.id}>
               <RecentPost post={post} index={index} />
             </Link>
@@ -89,8 +90,8 @@ const Sidebar = () => {
       {/* Top week */}
       <div className="mb-6 bg-white p-5">
         <h2 className="text-[#d60b8c] text-lg mb-4">Top of the week</h2>
-        {topOfWeek.length > 0 ? (
-          topOfWeek.slice(0, 5).map((post, index) => (
+        {topOfWeek?.content?.length > 0 ? (
+          topOfWeek?.content?.map((post, index) => (
             <Link to={`/post/${post.id}`} key={post.id}>
               <RecentPost post={post} key={index} index={index} />
             </Link>

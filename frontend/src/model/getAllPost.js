@@ -14,25 +14,20 @@ const getAllPost = (id) => {
           `http://${import.meta.env.VITE_IP_ADDRESS}:${
             import.meta.env.VITE_PORT
           }/api/article/user/${id}`,
-          // {
-          //   headers: {
-          //     Authorization: `Bearer ${token}`,
-          //   },
-          // }
         );
         
         if (response.data.apiResponseCode === "200") {
           
-          if (response.data.apiResponseData.responseCode === 200) { //getting response code in integer not in string should be fixed @@@@@@
+          if (response.data.apiResponseData.responseCode === "200") { 
         
             setPosts(response.data.apiResponseData.responseData);
           } else {
             setError(response.data.apiResponseData.responseMessage);
-            // console.log(error);
+            // ////console.log(error);
           }
         } else {
           setError(response.data.apiResponseMessage);
-          //   console.log(error);
+          //   ////console.log(error);
         }
       } catch (error) {
         const errorMessage =

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { AiOutlineHeart } from "react-icons/ai";
+import React, { useEffect, useState, useRef } from "react";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { RiShareForward2Fill } from "react-icons/ri";
 import RecentPost from "./RecentPost";
@@ -12,13 +11,18 @@ import PostDetailModel from "../model/PostDetailModel";
 import getAllPost from "../model/getAllPost";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import handelLoginSlice, { handelModal } from "../redux/slices/handelLoginSlice";
+import useTimeFormate from "../hooks/useTimeFormat";
+import  {
+  handelModal,
+} from "../redux/slices/handelLoginSlice";
 import ScrollToTop from "./ScrollToTop";
 import CommentList from "../views/CommentList";
+
 const PostDetail = () => {
   const [error, setError] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [likecount, setlikecount] = useState(0); //for like count update it for the comment count also
+  const [totalComments, setTotalComments] = useState([]);
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -38,17 +42,26 @@ const PostDetail = () => {
     setlikecount(posts.likeCount);
   }, [isPresent]);
 
+  useEffect(() => {
+    if (posts.comments) {
+      setTotalComments(posts.comments);
+    }
+  }, [posts.comments]);
+
   const articledata = {
     articleId: id,
     userId: userInfo?.id,
   };
+  const commentSectionRef = useRef(null);
 
-  const handleCommentToggle =()=>{
+  const handleCommentToggle = () => {
     if (!isAuthenticated) {
       dispatch(handelModal(true));
-      return;
     }
-  }
+    if (commentSectionRef.current) {
+      commentSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   //This handel the like and dislike
   const handleLikedToggle = async () => {
     if (!isAuthenticated) {
@@ -104,10 +117,14 @@ const PostDetail = () => {
                 {likecount}
               </p>
             </button>
-            <button className="mb-4 p-2 max-md:flex gap-2" onClick={handleCommentToggle}>
+            <button
+              className="mb-4 p-2 max-md:flex gap-2"
+              onClick={handleCommentToggle}
+            >
               <IoChatbubbleEllipsesOutline className="text-3xl" />
+
               <p className="text-sm max-md:text-xl max-md:m-auto">
-                {posts?.commentsCount}
+                {totalComments.length}
               </p>
             </button>
             <button className="mb-4 p-2 max-md:flex">
@@ -117,8 +134,8 @@ const PostDetail = () => {
         </div>
 
         <div className="flex max-md:flex-wrap justify-center">
-          <div>
-            <div className="max-w-4xl bg-white shadow-lg rounded-lg p-6 flex-grow">
+          <div className="xl:w-[56rem]">
+            <div className="max-w-4xl bg-white shadow-lg rounded-lg p-6 flex-grow break-all">
               <img src={posts?.coverImage} alt="" className="w-full" />
               <div className="flex items-center justify-between mt-3">
                 <div className="flex items-center">
@@ -136,7 +153,8 @@ const PostDetail = () => {
                       </h2>
                     </Link>
                     <p className="text-sm text-gray-500">
-                      Posted on {useFormate(posts?.createdAt)}
+                      Posted on {useFormate(posts?.createdAtDate)} •{" "}
+                      {useTimeFormate(posts?.createdAtTime)}
                     </p>
                   </div>
                 </div>
@@ -157,12 +175,20 @@ const PostDetail = () => {
               <div className="text-gray-700">
                 <Markup content={posts?.content || "Content not available"} />
               </div>
-              <div>
-                <h1 className="text-xl font-semibold pt-5 pb-5">Top Comment</h1>
-                <CommentList />
+              <div id="comment" ref={commentSectionRef}>
+                <h1 className=" text-xl font-semibold pt-5 pb-5">
+                  Top Comment
+                </h1>
+                <CommentList
+                  totalcomment={totalComments}
+                  postId={id}
+                  token={token}
+                  user={userInfo}
+                  setTotalComments={setTotalComments}
+                />
               </div>
             </div>
-            <Recommendation tags={posts.tagList} />
+            <Recommendation tags={posts?.tagList} id={id} />
           </div>
 
           <div className="md:ml-8 p-4 w-96 max-md:w-full">
