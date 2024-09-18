@@ -9,8 +9,6 @@ const Recommendation = ({ tags, id }) => {
   const [error, setError] = useState(null);
   const [recommendPost, setRecommendPost] = useState();
 
-  //console.log(recommendPost);
-
   useEffect(() => {
     const getRecommendedPost = async () => {
       try {

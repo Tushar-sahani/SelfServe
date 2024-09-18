@@ -3,7 +3,6 @@ import useCreatePostViewModel from "../viewModels/CreatePostViewModel";
 import ReactQuill from "react-quill";
 import { useNavigate, useParams } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
-import "react-toastify/dist/ReactToastify.css";
 
 const CreatePost = () => {
   const {

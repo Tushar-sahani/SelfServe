@@ -11,14 +11,13 @@ import ProfilePage from "./views/ProfilePage";
 import BlogDetail from "./components/BlogDetail";
 import useUserTracking from "./hooks/useUserTracking";
 import BlogShimmer from "./components/BlogShimmer";
-import { ToastContainer } from "react-toastify";
 import { lazy, Suspense } from "react";
 import UserProfile from "./views/UserProfile";
 import EditPost from "./views/EditedPost";
 import NotFound from "./components/404";
 import SearchResults from "./components/SearchResult";
 import PostPage from "./views/PostPage";
-
+import {Toaster} from "react-hot-toast"
 const Blog = lazy(() => import("./views/Blog"));
 
 function App() {
@@ -26,7 +25,7 @@ function App() {
   return (
     <Router basename="/selfserve">
       <Navbar />
-      <ToastContainer pauseOnHover={false} />
+      <Toaster />
       <Routes>
         <Route path="/*" element={<Hero />}>
           <Route path="" element={<PostPage />} />

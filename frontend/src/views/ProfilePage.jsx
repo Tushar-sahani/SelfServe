@@ -8,26 +8,39 @@ import getAllBlog from "../model/getAllBlog";
 import ProfilePostPage from "../components/ProfilePostPage";
 import ProfileBlogPage from "../components/ProfileBlogPage";
 import PostButton from "../components/PostButton";
+
 const ProfilePage = () => {
   const { id } = useParams();
+  const [page, setPage] = useState(0);
   const [posts, setPosts] = useState([]);
   const [blogs, setBlogs] = useState([]);
+  const [totalPostPages, setTotalPostPages] = useState(0);
   const [handelPostBlog, setHandelPostBlog] = useState("post");
 
   const { token, isAuthenticated } = useSelector((store) => store.auth);
   const { user, error: profileError, loading } = getProfileModel(id);
 
-  const { posts: personalPost } = getAllPost(id);
-  const { blogs: personalBlog } = getAllBlog(id);
+  const { posts: personalPost } = getAllPost(id, page, "5");
+  const { blogs: personalBlog } = getAllBlog(id, page, "5");
 
   useEffect(() => {
-    if (personalPost) {
-      setPosts(personalPost);
+    if (handelPostBlog === "post" && personalPost) {
+      setTotalPostPages(personalPost.totalPages);
+      setPosts(personalPost.content);
+    } else if (handelPostBlog === "blog" && personalBlog) {
+      setTotalPostPages(personalBlog.totalPages);
+      setBlogs(personalBlog.content);
     }
-    if (personalBlog) {
-      setBlogs(personalBlog);
-    }
-  }, [personalPost, personalBlog]);
+  }, [personalPost, personalBlog, handelPostBlog]);
+
+  const handelPrev = () => {
+    setPage((prev) => Math.max(prev - 1, 0));
+  };
+
+  const handelNext = () => {
+    setPage((prev) => Math.min(prev + 1, totalPostPages - 1));
+  };
+
   return (
     <>
       {isAuthenticated && <PostButton category={handelPostBlog} />}
@@ -40,9 +53,7 @@ const ProfilePage = () => {
                 <p className="text-gray-400">Followers</p>
               </div>
               <div>
-                <p className="font-bold text-gray-700 text-xl">
-                  {posts.length}
-                </p>
+                <p className="font-bold text-gray-700 text-xl">{posts?.length}</p>
                 <p className="text-gray-400">Posts</p>
               </div>
             </div>
@@ -68,32 +79,26 @@ const ProfilePage = () => {
           </div>
           <div className="md:mt-12 flex flex-col justify-center">
             <p className="text-gray-600 text-center font-light lg:px-16">
-              An artist of considerable range, Ryan — the name taken by
-              Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-              and records all of his own music, giving it a warm, intimate feel
-              with a solid groove structure. An artist of considerable range.
+              An artist of considerable range, Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure.
             </p>
           </div>
         </div>
         <div className="p-8 bg-white mt-2">
           <div className="flex gap-10">
             <button
-              className={`text-lg font-bold ${
-                handelPostBlog == "post" ? "text-[#d60b8c]" : ""
-              }`}
+              className={`text-lg font-bold ${handelPostBlog === "post" ? "text-[#d60b8c]" : ""}`}
               onClick={() => setHandelPostBlog("post")}
             >
               Posts
             </button>
             <button
-              className={`text-lg font-bold ${
-                handelPostBlog == "blog" ? "text-[#d60b8c]" : ""
-              }`}
+              className={`text-lg font-bold ${handelPostBlog === "blog" ? "text-[#d60b8c]" : ""}`}
               onClick={() => setHandelPostBlog("blog")}
             >
               Blogs
             </button>
           </div>
+
           {handelPostBlog === "post" ? (
             <ProfilePostPage
               posts={posts}
@@ -109,6 +114,22 @@ const ProfilePage = () => {
               setBlogs={setBlogs}
             />
           )}
+          <div className="flex justify-between">
+            <button
+              className={`bg-[#4C1A84] text-white font-bold py-2 px-4 rounded-l disabled:cursor-not-allowed disabled:opacity-0`}
+              disabled={page === 0}
+              onClick={handelPrev}
+            >
+              Prev
+            </button>
+            <button
+              className={`bg-[#4C1A84] text-white font-bold py-2 px-4 rounded-r disabled:cursor-not-allowed  disabled:opacity-0`}
+              disabled={page >= totalPostPages - 1}
+              onClick={handelNext}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </>
@@ -132,7 +153,6 @@ export const Modal = ({ setDeleteModel, setDeleteConfirmation }) => {
           onClick={() => setDeleteModel(false)}
           type="button"
           className="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-          data-modal-toggle="deleteModal"
         >
           <svg
             aria-hidden="true"

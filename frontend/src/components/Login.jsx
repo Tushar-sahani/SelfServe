@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'react-hot-toast';
 import outlook from "../assets/outlook.png";
 import { useDispatch } from "react-redux";
 import { setCredentials, setToken } from "../redux/slices/authSlice";
@@ -38,28 +37,30 @@ const Login = ({ isOpen, onClose }) => {
           console.log(data.apiResponseData.responseData);
           
           toast.success("Login successful!", {
-            autoClose: 1000,
+            duration: 1000,
           });
 
           setTimeout(() => {
             dispatch(setCredentials(data.apiResponseData.responseData));
             dispatch(setToken(data.apiResponseData.token));
             onClose(!isOpen);
-            // navigate("/");
           }, 1000);
         } else {
           // Error at Spring Level
           const errorMessage = data.apiResponseData.responseMessage;
-          toast.error(errorMessage, { autoClose: 3000 });
+          toast.error("Something Went Wrong!", { duration: 2000 });
+          console.log(errorMessage);
+          
         }
       } else {
         // Error at node level
         const errorMessage = data.apiResponseMessage;
-        toast.error(errorMessage, { autoClose: 3000 });
+        toast.error("Something Went Wrong!", { duration: 2000 });
+        console.log(errorMessage);
       }
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Login failed";
-      toast.error(errorMessage, { autoClose: 3000 });
+      toast.error(errorMessage, { duration: 2000 });
     } finally {
       setLoading(false);
     }

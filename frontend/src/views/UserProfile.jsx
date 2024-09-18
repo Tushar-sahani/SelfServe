@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import { LuMailPlus } from "react-icons/lu";
 import { CiImageOn } from "react-icons/ci";
 import getProfileModel from "../model/getProfileModel";

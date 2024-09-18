@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -106,15 +106,15 @@ const useEditPostViewModel = () => {
     try {
       setLoading(true);
       if (title.trim() === "") {
-        toast.error("Title cannot be empty.", { autoClose: 2000 });
+        toast.error("Title cannot be empty.", { duration: 2000 });
         return;
       } else if (description.length < 50 || description.length > 250) {
         toast.error("Description should be between 50 and 250 characters.", {
-          autoClose: 2000,
+          duration: 2000,
         });
         return;
       } else if (tags.length < 2) {
-        toast.error("At least two tags are required.", { autoClose: 2000 });
+        toast.error("At least two tags are required.", { duration: 2000 });
         return;
       }
       
@@ -133,20 +133,21 @@ const useEditPostViewModel = () => {
 
       const data = response.data;
       if (data.apiResponseCode === "200") {
+        
         if (data.apiResponseData.responseCode === "200") {
           toast.success(`${category} updated successfully!`, {
-            autoClose: 1800,
+            duration: 1800,
           });
-          navigate(`/${category}/${id}`);
+          navigate(`/${category}/${id}`,{replace:true});
         } else {
           // Error at Spring Level
           const errorMessage = data.apiResponseData.responseMessage;
-          toast.error(errorMessage, { autoClose: 3000 });
+          toast.error(errorMessage, { duration: 3000 });
         }
       } else {
         // Error at node level
         const errorMessage = data.apiResponseMessage;
-        toast.error(errorMessage, { autoClose: 3000 });
+        toast.error(errorMessage, { duration: 3000 });
       }
     } catch (error) {
       console.error(`Error updating ${category}:`, error);

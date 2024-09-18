@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const getAllPost = (id) => {
-  
+const getAllPost = (id, page, size) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -13,21 +12,17 @@ const getAllPost = (id) => {
         const response = await axios.get(
           `http://${import.meta.env.VITE_IP_ADDRESS}:${
             import.meta.env.VITE_PORT
-          }/api/article/user/${id}`,
+          }/api/article/user/${id}?page=${page}&size=${size}`
         );
-        
+
         if (response.data.apiResponseCode === "200") {
-          
-          if (response.data.apiResponseData.responseCode === "200") { 
-        
+          if (response.data.apiResponseData.responseCode === "200") {
             setPosts(response.data.apiResponseData.responseData);
           } else {
             setError(response.data.apiResponseData.responseMessage);
-            // ////console.log(error);
           }
         } else {
           setError(response.data.apiResponseMessage);
-          //   ////console.log(error);
         }
       } catch (error) {
         const errorMessage =
@@ -39,7 +34,7 @@ const getAllPost = (id) => {
     };
 
     fetchAllPost();
-  }, [id]);
+  }, [id, page]);
 
   return {
     posts,

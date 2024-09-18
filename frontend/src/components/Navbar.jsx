@@ -5,8 +5,7 @@ import Login from "./Login";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
 import { handelModal } from "../redux/slices/handelLoginSlice";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-hot-toast";
 
 const Navbar = () => {
 
@@ -41,7 +40,7 @@ const Navbar = () => {
   
   const handleLogout = () => {
     toast.success("Logged out successfully!  Redirecting to Landing page...", {
-      autoClose: 550,
+      duration: 600,
     });
     const timer = setTimeout(() => {
       dispatch(logout());
@@ -189,8 +188,8 @@ const Navbar = () => {
                   <ul className="text-left max-sm:text-center">
                     <li className="text-xl">{userInfo.name}</li>
                     <li className="text-md">{userInfo.email}</li>
-                    <Link>
-                      <li className="text-md pt-1">View Profile</li>
+                    <Link to={`/profile/${userInfo.id}`}>
+                      <li onClick={handleNav} className="text-md pt-1">View Profile</li>
                     </Link>
                   </ul>
                 </div>

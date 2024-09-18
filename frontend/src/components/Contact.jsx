@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { FaPhoneAlt, FaEnvelope, FaGlobe } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 const ContactPage = () => {
@@ -47,10 +47,12 @@ const ContactPage = () => {
 
       const data = response.data;
 
+      console.log(response);
+      
       if (data.apiResponseCode === "200") {
         if (data.apiResponseData.responseCode === "200") {
           toast.success("Message sent successfully!", {
-            autoClose: 1800,
+            duration: 1800,
           });
 
           setFormData({
@@ -62,12 +64,12 @@ const ContactPage = () => {
         } else {
           // Error at server level
           const errorMessage = data.apiResponseData.responseMessage;
-          toast.error(errorMessage, { autoClose: 3000 });
+          toast.error("Something went Wrong!", { duration: 2000 });
         }
       } else {
         // Error at API level
         const errorMessage = data.apiResponseMessage;
-        toast.error(errorMessage, { autoClose: 3000 });
+        toast.error("Something went Wrong!", { duration: 2000 });
       }
     } catch (error) {
       const errorMessage =

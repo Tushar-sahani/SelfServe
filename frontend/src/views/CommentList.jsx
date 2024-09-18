@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { handelModal } from "../redux/slices/handelLoginSlice";
-import Comment from "../components/Comment"; // Import the Comment component
+import Comment from "../components/Comment";
 import { MdAccountCircle } from "react-icons/md";
 const CommentList = ({
   setTotalComments,

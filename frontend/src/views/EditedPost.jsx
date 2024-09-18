@@ -3,7 +3,6 @@ import useEditPostViewModel from "../viewModels/EditPostViewModel";
 import ReactQuill from "react-quill";
 import { useNavigate, } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
-import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "../components/ScrollToTop";
 const EditPost = () => {
   const {
@@ -48,11 +47,6 @@ const EditPost = () => {
       matchVisual: false,
     },
   };
-
-  //   useEffect(() => {
-  //     // Fetch the post details when the component mounts
-  //     // This should be handled in the ViewModel
-  //   }, [id]);
 
   return (
     <>
@@ -171,7 +165,7 @@ const EditPost = () => {
           {loading ? "Updating..." : "Update"}
         </button>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate(-1)}
           className="px-4 py-2 text-white bg-[#ce3547e1] rounded-lg"
         >
           Cancel

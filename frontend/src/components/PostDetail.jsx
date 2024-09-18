@@ -21,7 +21,7 @@ import CommentList from "../views/CommentList";
 const PostDetail = () => {
   const [error, setError] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
-  const [likecount, setlikecount] = useState(0); //for like count update it for the comment count also
+  const [likecount, setlikecount] = useState(0);
   const [totalComments, setTotalComments] = useState([]);
   const { id } = useParams();
   const dispatch = useDispatch();

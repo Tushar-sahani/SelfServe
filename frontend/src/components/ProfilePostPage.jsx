@@ -10,8 +10,7 @@ import { FaBookReader } from "react-icons/fa";
 import useFormate from "../hooks/useFormate";
 import { Modal } from "../views/ProfilePage";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 
 const ProfilePostPage = ({ posts, isAuthenticated, token, setPosts }) => {
@@ -43,7 +42,7 @@ const ProfilePostPage = ({ posts, isAuthenticated, token, setPosts }) => {
                 prevPosts.filter((post) => post.id !== deletedId)
               );
               setDeletedId(null);
-              toast.success("Post deleted successfully!", { autoClose: 1500 });
+              toast.success("Post deleted successfully!", { duration: 1500 });
             } else {
               setError(response.data.apiResponseData.responseMessage);
             }
@@ -77,7 +76,7 @@ const ProfilePostPage = ({ posts, isAuthenticated, token, setPosts }) => {
         />
       )}
       <div className="mt-5">
-        {posts.length === 0 ? (
+        {posts?.length === 0 ? (
           <div className="flex items-center justify-center">
             <div className="text-center">
               <CiImageOn className="text-7xl m-auto" />
@@ -91,12 +90,12 @@ const ProfilePostPage = ({ posts, isAuthenticated, token, setPosts }) => {
           </div>
         ) : (
           <div className="flex flex-col gap-4 items-center max-md:p-2 mb-7 ">
-            {posts.map((data) => (
+            {posts?.map((data) => (
               <div
-                key={data.id}
+                key={data?.id}
                 className="relative bg-white shadow-md text-black rounded-sm p-6 mb-4 lg:w-[45vw] m-auto break-words w-full"
               >
-                <Link to={`/post/${data.id}`}>
+                <Link to={`/post/${data?.id}`}>
                   <div className="flex items-center md:w-10/12">
                     <img
                       src={data?.user?.profileImage}
@@ -106,12 +105,12 @@ const ProfilePostPage = ({ posts, isAuthenticated, token, setPosts }) => {
 
                     <div className="break-all">
                       <h2 className="lg:text-lg md:text-md max-md:text-xs font-bold cursor-pointer hover:text-[#d60b8c] mb-1">
-                        {data.title}
+                        {data?.title}
                       </h2>
                       <div className="text-[#2a2836] text-sm">
                         <span>{data?.user?.name} </span>
                         <span className="mr-2 ml-2">•</span>
-                        <span>{useFormate(data.createdAtDate)}</span>
+                        <span>{useFormate(data?.createdAtDate)}</span>
                       </div>
                     </div>
                   </div>

@@ -10,8 +10,7 @@ import { MdVisibility } from "react-icons/md";
 import { FaBookReader } from "react-icons/fa";
 import useFormate from "../hooks/useFormate";
 import { Modal } from "../views/ProfilePage";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
@@ -44,7 +43,7 @@ const ProfileBlogPage = ({ blogs, isAuthenticated, token, setBlogs }) => {
                 prevBlogs.filter((blog) => blog.id !== deletedId)
               );
               setDeletedId(null);
-              toast.success("Blog deleted successfully!", { autoClose: 1500 });
+              toast.success("Blog deleted successfully!", { duration: 1500 });
             } else {
               setError(response.data.apiResponseData.responseMessage);
             }
@@ -78,7 +77,7 @@ const ProfileBlogPage = ({ blogs, isAuthenticated, token, setBlogs }) => {
         />
       )}
       <div className="mt-5">
-        {blogs.length === 0 ? (
+        {blogs?.length === 0 ? (
           <div className="flex items-center justify-center">
             <div className="text-center">
               <CiImageOn className="text-7xl m-auto" />
@@ -92,12 +91,12 @@ const ProfileBlogPage = ({ blogs, isAuthenticated, token, setBlogs }) => {
           </div>
         ) : (
           <div className="flex flex-col gap-4 items-center max-md:p-2 mb-7">
-            {blogs.map((data) => (
+            {blogs?.map((data) => (
               <div
-                key={data.id}
+                key={data?.id}
                 className="relative bg-white shadow-md text-black rounded-sm p-6 mb-4 lg:w-[45vw] m-auto break-words w-full"
               >
-                <Link to={`/blog/${data.id}`}>
+                <Link to={`/blog/${data?.id}`}>
                   <div className="flex items-center md:w-10/12">
                     <img
                       src={data?.user?.profileImage}
@@ -107,12 +106,12 @@ const ProfileBlogPage = ({ blogs, isAuthenticated, token, setBlogs }) => {
 
                     <div>
                       <h2 className="lg:text-lg md:text-md max-md:text-xs font-bold cursor-pointer hover:text-[#d60b8c] mb-1">
-                        {data.title}
+                        {data?.title}
                       </h2>
                       <div className="text-[#2a2836] text-sm">
                         <span>{data?.user?.name} </span>
                         <span className="mr-2 ml-2">•</span>
-                        <span>{useFormate(data.createdAtDate)}</span>
+                        <span>{useFormate(data?.createdAtDate)}</span>
                       </div>
                     </div>
                   </div>

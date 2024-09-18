@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const getAllBlog = (id) => {
-  ////console.log(id);
+const getAllBlog = (id,page,size) => {
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,22 +13,20 @@ const getAllBlog = (id) => {
         const response = await axios.get(
           `http://${import.meta.env.VITE_IP_ADDRESS}:${
             import.meta.env.VITE_PORT
-          }/api/blog/user/${id}`,
+          }/api/blog/user/${id}?page=${page}&size=${size}`,
         );
-        ////console.log(response);
         
         if (response.data.apiResponseCode === "200") {
           
-          if (response.data.apiResponseData.responseCode === '200') { //getting response code in integer not in string should be fixed @@@@@@
+          if (response.data.apiResponseData.responseCode === '200') {
         
             setBlogs(response.data.apiResponseData.responseData);
           } else {
             setError(response.data.apiResponseData.responseMessage);
-            // ////console.log(error);
+          
           }
         } else {
           setError(response.data.apiResponseMessage);
-          //   ////console.log(error);
         }
       } catch (error) {
         const errorMessage =
@@ -41,7 +38,7 @@ const getAllBlog = (id) => {
     };
 
     fetchAllBlog();
-  }, [id]);
+  }, [id,page]);
 
   return {
     blogs,
